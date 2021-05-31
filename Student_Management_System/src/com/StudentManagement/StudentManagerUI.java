@@ -4,6 +4,11 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import java.awt.Toolkit;
+import javax.swing.JPanel;
+import javax.swing.border.LineBorder;
+import java.awt.Color;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.MatteBorder;
 
 public class StudentManagerUI extends JFrame {
 
@@ -27,11 +32,22 @@ public class StudentManagerUI extends JFrame {
 	 * Create the frame.
 	 */
 	public StudentManagerUI() {
-		setIconImage(Toolkit.getDefaultToolkit().getImage("D:\\[A] Documents\\[1] WORKING files\\IN PROGRESS [This Week]\\Piling Larang Manwal\\Pictures\\Images\\SNSM logo_Text.png"));
+		setName("MainFrame");
+		// Need to change this to undecorated later on
+		setBackground(Color.WHITE);
+		getContentPane().setBackground(Color.WHITE);
+		setIconImage(Toolkit.getDefaultToolkit().getImage(StudentManagerUI.class.getResource("/Icons/SNSMLogo_Text.png")));
 		setTitle("SNSM-Welcome");
-		setBounds(100, 100, 856, 477);
+		setBounds(100, 100, 1920, 1080);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		getContentPane().setLayout(null);
+		
+		
+		JPanel headerPanel = new JPanel();
+		headerPanel.setBackground(Color.WHITE);
+		headerPanel.setBorder(new MatteBorder(0, 0, 1, 0, (Color) Color.DARK_GRAY));
+		headerPanel.setBounds(0, 0, 1370, 62);
+		getContentPane().add(headerPanel);
 
 	}
-
 }
