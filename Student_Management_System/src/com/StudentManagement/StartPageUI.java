@@ -29,9 +29,9 @@ public class StartPageUI extends JFrame {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		/* Set the Nimbus look and feel */
+		/* Set the Windows look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+        /* If Windows (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
         try {
@@ -67,17 +67,16 @@ public class StartPageUI extends JFrame {
 	 */
 	public StartPageUI() {
 		
-		
 		setResizable(false);
-		// Need to change this to undecorated later on
 		setName("MainFrame");
 		setBackground(Color.WHITE);
+		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		getContentPane().setBackground(new Color(255, 255, 255));
 		setIconImage(Toolkit.getDefaultToolkit().getImage(StartPageUI.class.getResource("/Icons/SNSMLogo_Text.png")));
 		setTitle("SNSM-Welcome");
-		setBounds(100, 100, 1920, 1080);
+		setBounds(0, 0, 1920, 1080);
+		setMinimumSize(new java.awt.Dimension(1360, 768));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		getContentPane().setLayout(null);
 		
 		JPanel homePane = new JPanel();
@@ -85,7 +84,7 @@ public class StartPageUI extends JFrame {
 		getContentPane().add(homePane);
 		homePane.setLayout(null);
 		
-		JPanel loginPanel = new LoginPanel(); // adding the Login Panel
+		JPanel loginPanel = new LoginPanel(this); // adding the Login Panel and giving this frame to dispose
 		loginPanel.setVisible(false);
 		loginPanel.setEnabled(false);
 		homePane.add(loginPanel);
