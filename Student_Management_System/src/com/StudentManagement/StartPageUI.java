@@ -8,32 +8,52 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import javax.swing.JPanel;
-import javax.swing.border.LineBorder;
 import java.awt.Color;
-import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
-import javax.swing.JTabbedPane;
 import javax.swing.JButton;
-import javax.swing.BoxLayout;
-import java.awt.Component;
-import javax.swing.JSeparator;
-import javax.swing.JTree;
-import javax.swing.JToggleButton;
 import javax.swing.ImageIcon;
 import java.awt.Font;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
-public class MainPageUI extends JFrame {
+public class StartPageUI extends JFrame {
 
+	LoginFrame loginFrame = new LoginFrame(); //Login UI for some dropdown shit in the btnUser
+	int Thour, Tminute, Tsec, month, day, year;
+	JLabel lblDate = new javax.swing.JLabel();
+	JLabel lblTime = new javax.swing.JLabel();
+	
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		/* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Windows".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(mainPageFunction.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(mainPageFunction.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(mainPageFunction.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(mainPageFunction.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					MainPageUI frame = new MainPageUI();
+					StartPageUI frame = new StartPageUI();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -45,7 +65,7 @@ public class MainPageUI extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public MainPageUI() {
+	public StartPageUI() {
 		
 		
 		setResizable(false);
@@ -53,55 +73,80 @@ public class MainPageUI extends JFrame {
 		setName("MainFrame");
 		setBackground(Color.WHITE);
 		getContentPane().setBackground(new Color(255, 255, 255));
-		setIconImage(Toolkit.getDefaultToolkit().getImage(MainPageUI.class.getResource("/Icons/SNSMLogo_Text.png")));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(StartPageUI.class.getResource("/Icons/SNSMLogo_Text.png")));
 		setTitle("SNSM-Welcome");
 		setBounds(100, 100, 1920, 1080);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		getContentPane().setLayout(null);
 		
+		JPanel homePane = new JPanel();
+		homePane.setBounds(0, 0, 1370, 749);
+		getContentPane().add(homePane);
+		homePane.setLayout(null);
+		
+		JPanel loginPanel = new LoginPanel(); // adding the Login Panel
+		loginPanel.setVisible(false);
+		loginPanel.setEnabled(false);
+		homePane.add(loginPanel);
 		
 		JPanel headerPanel = new JPanel();
+		headerPanel.setBounds(0, 0, 1370, 89);
+		homePane.add(headerPanel);
 		headerPanel.setBackground(Color.WHITE);
 		headerPanel.setBorder(new MatteBorder(0, 0, 1, 0, (Color) Color.DARK_GRAY));
-		headerPanel.setBounds(0, 0, 1370, 89);
-		getContentPane().add(headerPanel);
 		headerPanel.setLayout(null);
 		
 		JButton btnSetting = new JButton("");
+		btnSetting.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		btnSetting.setBorder(null);
 		btnSetting.setBackground(Color.WHITE);
-		btnSetting.setFont(new Font("Tahoma", Font.PLAIN, 8));
-		btnSetting.setIcon(new ImageIcon(MainPageUI.class.getResource("/Icons/Navigation_Icons/setting-final.png")));
-		btnSetting.setSelectedIcon(new ImageIcon(MainPageUI.class.getResource("/Icons/Navigation_Icons/setting-final.png")));
-		btnSetting.setBounds(1214, 0, 89, 89);
+		btnSetting.setBounds(1214, 0, 88, 88);
+		btnSetting.setIcon(mainPageFunction.imgMethod((new ImageIcon(StartPageUI.class.getResource("/Icons/Navigation_Icons/setting-final.png"))), btnSetting.getWidth(), btnSetting.getHeight()));
+		btnSetting.setSelectedIcon(mainPageFunction.imgMethod((new ImageIcon(StartPageUI.class.getResource("/Icons/Navigation_Icons/setting-final.png"))), btnSetting.getWidth(), btnSetting.getHeight()));
 		headerPanel.add(btnSetting);
 		
 		JButton btnUser = new JButton("");
-		btnUser.setIcon(new ImageIcon(MainPageUI.class.getResource("/Icons/Navigation_Icons/User.png")));
+		btnUser.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(loginPanel.isVisible() == false) {
+				loginPanel.setVisible(true);
+				loginPanel.setEnabled(true);
+				loginPanel.setBounds((btnUser.getBounds().x - (int)(loginFrame.getWidth() * 0.35)), btnUser.getBounds().height, 300, 375);
+				}else {
+					loginPanel.setEnabled(false);
+					loginPanel.setVisible(false);
+				}
+			}
+		});
+		btnUser.setBounds(1115, 0, 88, 88);
+		btnUser.setIcon(mainPageFunction.imgMethod((new ImageIcon(StartPageUI.class.getResource("/Icons/Navigation_Icons/User.png"))), btnUser.getWidth(), btnUser.getHeight()));
 		btnUser.setFont(new Font("Tahoma", Font.PLAIN, 8));
 		btnUser.setBorder(null);
 		btnUser.setBackground(Color.WHITE);
-		btnUser.setBounds(1115, 0, 89, 89);
 		headerPanel.add(btnUser);
 		
-		JPanel panel = new JPanel();
-		panel.setBackground(Color.WHITE);
-		panel.setBounds(0, 87, 1370, 662);
-		getContentPane().add(panel);
-		panel.setLayout(null);
+		JPanel Mainpanel = new JPanel();
+		Mainpanel.setBounds(0, 87, 1370, 662);
+		homePane.add(Mainpanel);
+		Mainpanel.setBackground(Color.WHITE);
+		Mainpanel.setLayout(null);
 		
-		JLabel lblMainIcon = new JLabel("New label");
+		JLabel lblMainIcon = new JLabel("");
 		lblMainIcon.setHorizontalAlignment(SwingConstants.CENTER);
-		lblMainIcon.setIcon(new ImageIcon(MainPageUI.class.getResource("/Icons/MainLogo.png")));
-		lblMainIcon.setBounds(-85, 87, 532, 492);
-		panel.add(lblMainIcon);
+		lblMainIcon.setBounds(-169, -16, 685, 622);
+		lblMainIcon.setIcon(mainPageFunction.imgMethodNonButton((new ImageIcon(StartPageUI.class.getResource("/Icons/MainLogo.png"))), lblMainIcon.getWidth(), lblMainIcon.getHeight()));
+		Mainpanel.add(lblMainIcon);
 		
 		JLabel lblWelcome = new JLabel("");
 		lblWelcome.setBackground(Color.WHITE);
 		lblWelcome.setHorizontalAlignment(SwingConstants.CENTER);
-		lblWelcome.setIcon(new ImageIcon(MainPageUI.class.getResource("/Icons/Others/Welcome.png")));
-		lblWelcome.setBounds(455, 166, 1054, 263);
-		panel.add(lblWelcome);
+		lblWelcome.setBounds(438, 188, 860, 245);
+		lblWelcome.setIcon(mainPageFunction.imgMethodNonButton((new ImageIcon(StartPageUI.class.getResource("/Icons/Others/Welcome.png"))), lblWelcome.getWidth(), lblWelcome.getHeight()));
+		Mainpanel.add(lblWelcome);
 
 	}
 	
