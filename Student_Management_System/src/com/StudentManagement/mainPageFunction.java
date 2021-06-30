@@ -70,16 +70,14 @@ public class mainPageFunction {
 			Image img = icon.getImage();
 			int height = icon.getIconHeight();
 			int width = icon.getIconWidth();
-			
-
 			if (height > newHeight) {
-			    height = newHeight;
+			height = newHeight;
 			}
-
 			if (width > newWidth) {
-			    width = newWidth;
+			width = newWidth;
 			}
-			img = img.getScaledInstance( width, height,  Image.SCALE_AREA_AVERAGING);
+			
+			img = img.getScaledInstance( newWidth, newHeight,  Image.SCALE_AREA_AVERAGING);
 			icon = new ImageIcon( img );
 			
 		} catch (Exception e) {
