@@ -9,6 +9,9 @@ import java.awt.RenderingHints;
 
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import java.awt.Font;
 
 
 
@@ -23,17 +26,17 @@ public class RoundedPanel extends JPanel {
 	 */
 	private static final long serialVersionUID = 1L;
 	/** Stroke size. it is recommended to set it to 1 for better view */
-    protected int strokeSize = 1;
+    protected int strokeSize = 0;
     /** Color of shadow */
     protected Color shadowColor = Color.blue;
     /** Sets if it drops shadow */
-    protected boolean shady = true;
+    protected boolean shady = false;
     /** Sets if it has an High Quality view */
     protected boolean highQuality = true;
     /** Double values for Horizontal and Vertical radius of corner arcs */
-    protected Dimension arcs = new Dimension(30, 30);
+    protected Dimension arcs = new Dimension(50, 50);
     /** Distance between shadow border and opaque panel border */
-    protected int shadowGap = 5;
+    protected int shadowGap = 0;
     /** The offset of shadow.  */
     protected int shadowOffset = 4;
     /** The transparency value of shadow. ( 0 - 255) */
@@ -46,6 +49,36 @@ public class RoundedPanel extends JPanel {
 	public RoundedPanel() {
 		super();
 		setOpaque(false);
+		setBounds(0, 0, 300, 150);
+		setLayout(null);
+		
+		JLabel lblFullName = new JLabel("Luwalhati Alcantara");
+		lblFullName.setForeground(Color.WHITE);
+		lblFullName.setFont(new Font("Montserrat", Font.PLAIN, 13));
+		lblFullName.setBounds(135, 25, 162, 20);
+		add(lblFullName);
+		
+		JLabel lblLrn = new JLabel("LRN: 13689056734");
+		lblLrn.setFont(lblFullName.getFont());
+		lblLrn.setForeground(lblFullName.getForeground());
+		lblLrn.setBounds(135, 53, 162, 20);
+		add(lblLrn);
+		
+		JLabel lblGrade = new JLabel("Grade: ICT 11-A");
+		lblGrade.setFont(lblFullName.getFont());
+		lblGrade.setForeground(lblFullName.getForeground());
+		lblGrade.setBounds(135, 78, 162, 20);
+		add(lblGrade);
+		
+		JLabel lblAge = new JLabel("Age: 17");
+		lblAge.setFont(lblFullName.getFont());
+		lblAge.setForeground(lblFullName.getForeground());
+		lblAge.setBounds(135, 104, 162, 20);
+		add(lblAge);
+		
+		JLabel lblNewLabel = new JLabel(mainPageFunction.imgCircle(mainPageFunction.imgRescale((new ImageIcon(RoundedPanel.class.getResource("/Icons/Others/Student.jpg"))), 118, 118)));
+		lblNewLabel.setBounds(10, 16, 118, 118);
+		add(lblNewLabel);
 
 	}
 	
@@ -80,8 +113,7 @@ public class RoundedPanel extends JPanel {
 
 	       //Draws the rounded opaque panel with borders.
 	       graphics.setColor(getBackground());
-	       graphics.fillRoundRect(0, 0, width - shadowGap,
-	       height - shadowGap, arcs.width, arcs.height);
+	       graphics.fillRoundRect(0, 0, width - shadowGap, height - shadowGap, arcs.width, arcs.height);
 	       graphics.setColor(getForeground());
 	       graphics.setStroke(new BasicStroke(strokeSize));
 	       graphics.drawRoundRect(0, 0, width - shadowGap,
@@ -90,5 +122,4 @@ public class RoundedPanel extends JPanel {
 	       //Sets strokes to default, is better.
 	       graphics.setStroke(new BasicStroke());
 	   }
-
 }
