@@ -6,6 +6,9 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import java.awt.Toolkit;
 import java.awt.geom.RoundRectangle2D;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.awt.Color;
 import javax.swing.border.MatteBorder;
 import javax.swing.ImageIcon;
@@ -21,7 +24,6 @@ import javax.swing.JMenu;
 import javax.swing.SwingConstants;
 import java.awt.ComponentOrientation;
 import java.awt.Dimension;
-
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.FlowLayout;
@@ -38,6 +40,7 @@ public class HomePageUI extends JFrame {
 	private JTextField txtDueDate;
 	private JTextField txtTaskCode;
 	private JTextField textField;
+	private JLabel lblTime = new JLabel("TIME");
 
 	/**
 	 * Launch the application.
@@ -61,6 +64,8 @@ public class HomePageUI extends JFrame {
 	 * @see This part needs to separate all the panels on other files to be sort things out more easily.
 	 */
 	public HomePageUI() {
+		clock(); // run clock for the time thread to work
+		
 		setResizable(false);
 		setExtendedState(Frame.MAXIMIZED_BOTH);
 		setTitle("Home - SNSM");
@@ -129,9 +134,17 @@ public class HomePageUI extends JFrame {
 		btnUser.setBounds(944, 0, 88, 88);
 		btnUser.setIcon(mainPageFunction.imgMethod((new ImageIcon(HomePageUI.class.getResource("/Icons/Navigation_Icons/User.png"))), btnUser.getWidth(), btnUser.getHeight()));
 		headerPanel.add(btnUser);
+		lblTime.setVerticalAlignment(SwingConstants.BOTTOM);
+		
+		
+		lblTime.setForeground(new Color(58, 58, 58));
+		lblTime.setHorizontalTextPosition(SwingConstants.CENTER);
+		lblTime.setFont(new Font("Bebas", Font.PLAIN, 60));
+		lblTime.setBounds(1158, 11, 202, 67);
+		headerPanel.add(lblTime);
 		
 		JLabel lblHelp = new JLabel("");
-		lblHelp.setBounds(30, 669, 47, 55);
+		lblHelp.setBounds(33, 669, 55, 65);
 		lblHelp.setIcon(mainPageFunction.imgRescale((new ImageIcon(HomePageUI.class.getResource("/Icons/Navigation_Icons/help_icon.png"))), lblHelp.getWidth(), lblHelp.getHeight()));
 		contentPane.add(lblHelp);
 		
@@ -228,7 +241,7 @@ public class HomePageUI extends JFrame {
 		JPanel pnlNotificationHeader = new JPanel();
 		pnlNotificationHeader.setBorder(new MatteBorder(0, 0, 2, 2, (Color) new Color(217, 217, 217)));
 		pnlNotificationHeader.setBackground(new Color(249, 249, 249));
-		pnlNotificationHeader.setBounds(0, 0, 621, 80); // fix the conflict for the border of the header and the panelFeed
+		pnlNotificationHeader.setBounds(0, 0, 624, 80); // fix the conflict for the border of the header and the panelFeed
 		panel.add(pnlNotificationHeader);
 		pnlNotificationHeader.setLayout(null);
 		
@@ -399,5 +412,41 @@ public class HomePageUI extends JFrame {
 		studentInfo2.setSize(studentInfo.getSize());
 		studentInfo2.setBackground(new Color(77, 111, 255));
 		pnlDatabase.add(studentInfo2);
+	}
+	
+	
+	// See this video for more info: https://youtu.be/tpQAslXjNKU
+	public void clock() {
+        Thread clock = new Thread() {
+			public void run() {
+				try {
+					while (true) {
+						Calendar cal = Calendar.getInstance();
+						//get current time
+						int Thour = cal.get(Calendar.HOUR_OF_DAY);
+						int Tminute = cal.get(Calendar.MINUTE);
+
+						//            //for ;
+						//            SimpleDateFormat sdf24 =  new SimpleDateFormat("HH:mm:ss");
+						Date dat = cal.getTime();
+						//            String time24 = sdf24.format(dat);
+						//            
+						//            //set to label
+						//            time.setText(time24);
+
+						//for 12format
+						SimpleDateFormat sdf12 = new SimpleDateFormat("hh:mm aa");
+						String time12 = sdf12.format(dat);
+
+						//set to label
+						lblTime.setText(time12);
+					}
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		};
+		clock.start();
 	}
 }

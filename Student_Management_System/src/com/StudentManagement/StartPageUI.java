@@ -148,38 +148,5 @@ public class StartPageUI extends JFrame {
 		Mainpanel.add(lblWelcome);
 
 	}
-	
-    public void run() {
-        while(true){
-            Calendar cal =Calendar.getInstance();
-            //get current time
-            Thour = cal.get(Calendar.HOUR_OF_DAY);
-            Tminute = cal.get(Calendar.MINUTE);
-            Tsec = cal.get(Calendar.SECOND);
-            month=cal.get(Calendar.MONTH);
-            day = cal.get(Calendar.DAY_OF_MONTH);
-            year = cal.get(Calendar.YEAR);
-            
-//            //for ;
-//            SimpleDateFormat sdf24 =  new SimpleDateFormat("HH:mm:ss");
-            Date dat = cal.getTime();
-            Date date1 = cal.getTime();
-//            String time24 = sdf24.format(dat);
-//            
-//            //set to label
-//            time.setText(time24);
-            
-             //for 12format
-            SimpleDateFormat sdf12 =  new SimpleDateFormat("hh:mm:ss aa");
-            SimpleDateFormat date =  new SimpleDateFormat("MMM dd" + ", " +  "yyyy");
-            String time12 = sdf12.format(dat);
-            String date12 = date.format(dat);
-            
-            //set to label
-            lblTime.setText(time12);
-            lblDate.setText(date12.toUpperCase());
-            
-
-        }
-     }   
+	   
 }
