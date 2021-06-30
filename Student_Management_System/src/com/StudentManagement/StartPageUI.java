@@ -17,6 +17,7 @@ import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.GridLayout;
 
 public class StartPageUI extends JFrame {
 
@@ -77,10 +78,9 @@ public class StartPageUI extends JFrame {
 		setBounds(0, 0, 1920, 1080);
 		setMinimumSize(new java.awt.Dimension(1360, 768));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		getContentPane().setLayout(null);
+		getContentPane().setLayout(new GridLayout(0, 1, 0, 0));
 		
 		JPanel homePane = new JPanel();
-		homePane.setBounds(0, 0, 1370, 749);
 		getContentPane().add(homePane);
 		homePane.setLayout(null);
 		
