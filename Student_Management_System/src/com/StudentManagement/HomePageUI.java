@@ -5,6 +5,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import java.awt.Toolkit;
+import java.awt.geom.RoundRectangle2D;
 import java.awt.Color;
 import javax.swing.border.MatteBorder;
 import javax.swing.ImageIcon;
@@ -19,11 +20,15 @@ import javax.swing.border.LineBorder;
 import javax.swing.JMenu;
 import javax.swing.SwingConstants;
 import java.awt.ComponentOrientation;
+import java.awt.Dimension;
+
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.FlowLayout;
 import javax.swing.JTextField;
 import javax.swing.JTextArea;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ChangeEvent;
 
 public class HomePageUI extends JFrame {
 
@@ -52,6 +57,8 @@ public class HomePageUI extends JFrame {
 
 	/**
 	 * Create the frame.
+	 * 
+	 * @see This part needs to separate all the panels on other files to be sort things out more easily.
 	 */
 	public HomePageUI() {
 		setResizable(false);
@@ -85,13 +92,13 @@ public class HomePageUI extends JFrame {
 		lblSelectedTabName.setBounds(10, 20, 316, 38);
 		pnlNavigation.add(lblSelectedTabName);
 		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Late Slip", "Absent Slip", "Complaint", "Drop Slip"}));
-		comboBox.setName("taskTypeSelector");
-		comboBox.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));
-		comboBox.setBorder(new LineBorder(new Color(0, 0, 0)));
-		comboBox.setBounds(265, 24, 162, 30);
-		pnlNavigation.add(comboBox);
+		JComboBox cmbTaskType = new JComboBox();
+		cmbTaskType.setModel(new DefaultComboBoxModel(new String[] {"Late Slip", "Absent Slip", "Complaint", "Drop Slip"}));
+		cmbTaskType.setName("taskTypeSelector");
+		cmbTaskType.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));
+		cmbTaskType.setBorder(new LineBorder(new Color(0, 0, 0)));
+		cmbTaskType.setBounds(265, 24, 162, 30);
+		pnlNavigation.add(cmbTaskType);
 		
 		JButton btnAddStudent = new JButton("");
 		btnAddStudent.setBounds(719, 9, 60, 60);
@@ -127,14 +134,88 @@ public class HomePageUI extends JFrame {
 		lblHelp.setBounds(30, 669, 47, 55);
 		lblHelp.setIcon(mainPageFunction.imgRescale((new ImageIcon(HomePageUI.class.getResource("/Icons/Navigation_Icons/help_icon.png"))), lblHelp.getWidth(), lblHelp.getHeight()));
 		contentPane.add(lblHelp);
+		
+		// Listens to the changed of tabs to change the pnlNavigation what to show or not
+		tabbedPane.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent e) {
+//				System.out.println("Tab " + tabbedPane.getSelectedIndex());
+				if (tabbedPane.getSelectedIndex() == 0) {
+					pnlNavigation.setEnabled(false);
+					pnlNavigation.setVisible(false);
+				} else if (tabbedPane.getSelectedIndex() == 1) {
+					pnlNavigation.setEnabled(true);
+					pnlNavigation.setVisible(true);
+					lblSelectedTabName.setText("Task Editor");
+					cmbTaskType.setEnabled(true);
+					cmbTaskType.setVisible(true);
+					btnAddStudent.setEnabled(false);
+					btnAddStudent.setVisible(false);
+					btnSearch.setEnabled(false);
+					btnSearch.setVisible(false);
+				} else if (tabbedPane.getSelectedIndex() == 2) {
+					pnlNavigation.setEnabled(true);
+					pnlNavigation.setVisible(true);
+					lblSelectedTabName.setText("Calendar");
+					cmbTaskType.setEnabled(false);
+					cmbTaskType.setVisible(false);
+					btnAddStudent.setEnabled(false);
+					btnAddStudent.setVisible(false);
+					btnSearch.setEnabled(false);
+					btnSearch.setVisible(false);
+				} else if (tabbedPane.getSelectedIndex() == 3) {
+					pnlNavigation.setEnabled(true);
+					pnlNavigation.setVisible(true);
+					lblSelectedTabName.setText("Student Database");
+					cmbTaskType.setEnabled(false);
+					cmbTaskType.setVisible(false);
+					btnAddStudent.setEnabled(true);
+					btnAddStudent.setVisible(true);
+					btnSearch.setEnabled(true);
+					btnSearch.setVisible(true);
+				} else {
+					pnlNavigation.setEnabled(false);
+					pnlNavigation.setVisible(false);
+				}
+			}
+		});
 		tabbedPane.setFont(new Font("Segoe UI", Font.PLAIN, 14));
 		tabbedPane.setBackground(new Color(249, 249, 249));
 		tabbedPane.setBounds(0, 87, 1370, 662);
 		contentPane.add(tabbedPane);
 		
+		
+		
+		/**
+		 * This part is for the initialization of the icon for the tab
+		 * Except for the Help icon since it will use a Jpanel of some sort for its content
+		 * 
+		 * @see https://stackoverflow.com/questions/9052784/set-size-of-tab-in-jtabbedpane
+		 * 		for the information about the tabComponent
+		 */
+		// Icon for the Notification Tab
+		JLabel notificationIcon = new JLabel( mainPageFunction.imgRescale((new ImageIcon(HomePageUI.class.getResource("/Icons/Navigation_Icons/bell-icon[lined].png"))), 75, 75));
+		notificationIcon.setPreferredSize(new Dimension(100, 100));
+		
+		// Icon for the TaskEditor Tab
+		JLabel taskEditorIcon = new JLabel( mainPageFunction.imgRescale((new ImageIcon(HomePageUI.class.getResource("/Icons/Navigation_Icons/card.png"))), 75, 75));
+		taskEditorIcon.setPreferredSize(new Dimension(100, 100));
+		
+		
+		// Icon for the Calendar Tab
+		JLabel calendarIcon = new JLabel( mainPageFunction.imgRescale((new ImageIcon(HomePageUI.class.getResource("/Icons/Navigation_Icons/calendar1600.png"))), 75, 75));
+		calendarIcon.setPreferredSize(new Dimension(100, 100));
+		
+		// Icon for the TaskEditor Tab
+		JLabel studentDatabaseIcon = new JLabel( mainPageFunction.imgRescale((new ImageIcon(HomePageUI.class.getResource("/Icons/Navigation_Icons/database.png"))), 75, 75));
+		studentDatabaseIcon.setPreferredSize(new Dimension(100, 100));
+		
+		
+		
 		JPanel pnlNotification = new JPanel();
 		pnlNotification.setBackground(Color.WHITE);
-		tabbedPane.addTab("Notification", null, pnlNotification, null);
+		tabbedPane.addTab("", pnlNotification);
+		tabbedPane.setTabComponentAt(0, notificationIcon);
+		tabbedPane.setSelectedIndex(0);
 		pnlNotification.setLayout(new GridLayout(0, 2, 0, 0));
 		
 		JPanel panel = new JPanel();
@@ -143,10 +224,11 @@ public class HomePageUI extends JFrame {
 		pnlNotification.add(panel);
 		panel.setLayout(null);
 		
+		// Notifiction header but still don't have any functionalities
 		JPanel pnlNotificationHeader = new JPanel();
 		pnlNotificationHeader.setBorder(new MatteBorder(0, 0, 2, 2, (Color) new Color(217, 217, 217)));
 		pnlNotificationHeader.setBackground(new Color(249, 249, 249));
-		pnlNotificationHeader.setBounds(0, 0, 631, 80);
+		pnlNotificationHeader.setBounds(0, 0, 621, 80); // fix the conflict for the border of the header and the panelFeed
 		panel.add(pnlNotificationHeader);
 		pnlNotificationHeader.setLayout(null);
 		
@@ -164,9 +246,12 @@ public class HomePageUI extends JFrame {
 		lblLogo.setIcon(mainPageFunction.imgMethodNonButton((new ImageIcon(HomePageUI.class.getResource("/Icons/MainLogo.png"))), 650, 650));
 		pnlNotification.add(lblLogo);
 		
+		
+		
 		JPanel pnlTaskEditor = new JPanel();
 		pnlTaskEditor.setBackground(new Color(251, 251, 251));
-		tabbedPane.addTab("Task Editor", null, pnlTaskEditor, null);
+		tabbedPane.addTab("", pnlTaskEditor);
+		tabbedPane.setTabComponentAt(1, taskEditorIcon);
 		pnlTaskEditor.setLayout(new GridLayout(0, 2, 0, 0));
 		
 		JPanel pnlTaskMainEditor = new JPanel();
@@ -212,19 +297,19 @@ public class HomePageUI extends JFrame {
 		lblDueDate.setBounds(344, 80, 139, 30);
 		pnlTaskMainEditor.add(lblDueDate);
 		
-		JLabel lblStudentName_1 = new JLabel("Priority");
-		lblStudentName_1.setHorizontalAlignment(SwingConstants.LEFT);
-		lblStudentName_1.setFont(new Font("Segoe UI", Font.PLAIN, 20));
-		lblStudentName_1.setBounds(52, 188, 139, 30);
-		pnlTaskMainEditor.add(lblStudentName_1);
+		JLabel lblPriority = new JLabel("Priority");
+		lblPriority.setHorizontalAlignment(SwingConstants.LEFT);
+		lblPriority.setFont(new Font("Segoe UI", Font.PLAIN, 20));
+		lblPriority.setBounds(52, 188, 139, 30);
+		pnlTaskMainEditor.add(lblPriority);
 		
-		JComboBox comboBox_1 = new JComboBox();
-		comboBox_1.setBorder(txtStudentName.getBorder());
-		comboBox_1.setBackground(new Color(255, 255, 255));
-		comboBox_1.setModel(new DefaultComboBoxModel(new String[] {"Select Priority", "High ", "Medium", "Low"}));
-		comboBox_1.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-		comboBox_1.setBounds(52, 224, 240, 35);
-		pnlTaskMainEditor.add(comboBox_1);
+		JComboBox cmbPriority = new JComboBox();
+		cmbPriority.setBorder(txtStudentName.getBorder());
+		cmbPriority.setBackground(new Color(255, 255, 255));
+		cmbPriority.setModel(new DefaultComboBoxModel(new String[] {"Select Priority", "High ", "Medium", "Low"}));
+		cmbPriority.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+		cmbPriority.setBounds(52, 224, 240, 35);
+		pnlTaskMainEditor.add(cmbPriority);
 		
 		JLabel lblTaskCode = new JLabel("Task code");
 		lblTaskCode.setHorizontalAlignment(SwingConstants.LEFT);
@@ -289,10 +374,30 @@ public class HomePageUI extends JFrame {
 		
 		JPanel pnlCalendar = new JPanel();
 		pnlCalendar.setBackground(Color.WHITE);
-		tabbedPane.addTab("Calendar", null, pnlCalendar, null);
+		tabbedPane.addTab("", pnlCalendar);
+		tabbedPane.setTabComponentAt(2, calendarIcon);
 		
 		JPanel pnlDatabase = new JPanel();
 		pnlDatabase.setBackground(new Color(255, 255, 255));
-		tabbedPane.addTab("Student Database", null, pnlDatabase, null);
+		tabbedPane.addTab("", pnlDatabase);
+		tabbedPane.setTabComponentAt(3, studentDatabaseIcon);
+		pnlDatabase.setLayout(null);
+		
+		JPanel studentInfo = new RoundedPanel();
+		studentInfo.setBounds(70, 35, 300, 150);
+		studentInfo.setBackground(new Color(166, 166, 166));
+		pnlDatabase.add(studentInfo);
+		
+		RoundedPanel studentInfo1 = new RoundedPanel();
+		studentInfo1.setLocation(460, 35);
+		studentInfo1.setSize(studentInfo.getSize());
+		studentInfo1.setBackground(new Color(177, 33, 33));
+		pnlDatabase.add(studentInfo1);
+		
+		RoundedPanel studentInfo2 = new RoundedPanel();
+		studentInfo2.setLocation(850, 35);
+		studentInfo2.setSize(studentInfo.getSize());
+		studentInfo2.setBackground(new Color(77, 111, 255));
+		pnlDatabase.add(studentInfo2);
 	}
 }
