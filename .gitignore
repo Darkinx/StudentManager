@@ -1,6 +1,6 @@
 # Directories
-bin/
-src/com/StudentManagement/Testing/
+/bin/*
+/src/com/StudentManagement/Testing/*
 
 # Compiled class file
 *.class
