@@ -1,7 +1,7 @@
 /**
  * This needs more image rescaling function for fixed ratio since the two can't handle it
  */
-package com.StudentManagement;
+package com.StudentManagement.Testing;
 
 import java.awt.AlphaComposite;
 import java.awt.Color;
@@ -12,15 +12,14 @@ import java.awt.Shape;
 import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import javax.imageio.ImageIO;
+
 import javax.swing.ImageIcon;
 
 /**
  * @author Darkin
  *
  */
-public class mainPageFunction {
+public class mainPageFunctionTest {
 	
 	/**
 	    * Returns a scaled down image if the height or width is smaller than the
@@ -236,7 +235,7 @@ public class mainPageFunction {
 	 * @see also the link for here: 
 	 * 			https://stackoverflow.com/questions/31423130/how-to-make-circle-image-label-in-java
 	 */
-	protected static void applyQualityRenderingHints(Graphics2D g2d) {
+	private static void applyQualityRenderingHints(Graphics2D g2d) {
 		// TODO Auto-generated method stub
 		g2d.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);

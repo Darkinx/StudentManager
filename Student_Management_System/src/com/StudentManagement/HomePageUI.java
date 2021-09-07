@@ -1,62 +1,76 @@
 package com.StudentManagement;
 
-import java.awt.EventQueue;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
+import java.awt.CardLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Frame;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+import java.awt.Insets;
 import java.awt.Toolkit;
-import java.awt.geom.RoundRectangle2D;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.awt.Color;
-import javax.swing.border.MatteBorder;
+
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import java.awt.Font;
-import javax.swing.JTabbedPane;
-import javax.swing.JLabel;
-import java.awt.GridLayout;
-import java.awt.Frame;
-import javax.swing.JMenuItem;
-import javax.swing.border.LineBorder;
-import javax.swing.JMenu;
-import javax.swing.SwingConstants;
-import java.awt.ComponentOrientation;
-import java.awt.Dimension;
 import javax.swing.JComboBox;
-import javax.swing.DefaultComboBoxModel;
-import java.awt.FlowLayout;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JLayeredPane;
+import javax.swing.JPanel;
+import javax.swing.JSpinner;
+import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
-import javax.swing.JTextArea;
-import javax.swing.event.ChangeListener;
+import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
+import javax.swing.border.MatteBorder;
 import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
+import com.toedter.calendar.JCalendar;
 
 public class HomePageUI extends JFrame {
 
-	private JPanel contentPane;
+	// In need to sort these things out first late on
+	private JLayeredPane contentPane;
 	private final JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.LEFT);
-	private JTextField txtStudentName;
-	private JTextField txtDueDate;
-	private JTextField txtTaskCode;
-	private JTextField textField;
+	private JPanel pnlDatabase = new JPanel();
 	private JLabel lblTime = new JLabel("TIME");
+	private JPanel pnlMainDatabase = new JPanel(); //Panel for the student database in the databaseTabPanel
+	private JPanel pnlStudentEditor = new StudentEditInfo(); //Student Info part of the Database tab Panel
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					HomePageUI frame = new HomePageUI();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+	private JPanel pnlMainEditorView = new JPanel(); // Main view for the half of the Task Editor
+	private JPanel pnlLateSlip = new LateSlipPanel(); //Panel for LastSlip edit on the Task Editor
+	private JPanel pnlAbsentSlip = new AbsentSlipPanel(); // Panel for AbsentSlip edit on the Task Editor
+	private JPanel pnlCallParent = new CallParentPanel(); // Panel for CallParent Slip on the Task Editor
+	private JPanel pnlDropSlip = new DropSlipPanel(); // Panel for the Drop Slip option of Task Editor
+	
+	
+	
+//	/**
+//	 * Launch the application.
+//	 */
+//	public static void main(String[] args) {
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					HomePageUI frame = new HomePageUI();
+//					frame.setVisible(true);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+//	}
 
 	/**
 	 * Create the frame.
@@ -72,7 +86,7 @@ public class HomePageUI extends JFrame {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(HomePageUI.class.getResource("/Icons/SNSMLogo_Text.png")));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1920, 1080);
-		contentPane = new JPanel();
+		contentPane = new JLayeredPane();
 		contentPane.setBackground(Color.WHITE);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -97,8 +111,36 @@ public class HomePageUI extends JFrame {
 		lblSelectedTabName.setBounds(10, 20, 316, 38);
 		pnlNavigation.add(lblSelectedTabName);
 		
-		JComboBox cmbTaskType = new JComboBox();
+		JComboBox<String> cmbTaskType = new JComboBox();
 		cmbTaskType.setModel(new DefaultComboBoxModel(new String[] {"Late Slip", "Absent Slip", "Complaint", "Drop Slip"}));
+		cmbTaskType.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(cmbTaskType.getSelectedIndex() == 0) {
+					pnlMainEditorView.removeAll();
+					pnlMainEditorView.add(pnlLateSlip);
+					pnlMainEditorView.repaint();
+					pnlMainEditorView.revalidate();
+				}else if (cmbTaskType.getSelectedIndex() == 1) {
+					pnlMainEditorView.removeAll();
+					pnlMainEditorView.add(pnlAbsentSlip);
+					pnlMainEditorView.repaint();
+					pnlMainEditorView.revalidate();
+				}else if (cmbTaskType.getSelectedIndex() == 2) {
+					pnlMainEditorView.removeAll();
+					pnlMainEditorView.add(pnlCallParent);
+					pnlMainEditorView.repaint();
+					pnlMainEditorView.revalidate();
+				}else if (cmbTaskType.getSelectedIndex() == 3) {
+					pnlMainEditorView.removeAll();
+					pnlMainEditorView.add(pnlDropSlip);
+					pnlMainEditorView.repaint();
+					pnlMainEditorView.revalidate();
+				}else {
+					System.out.println("Error on cmbTaskType Selections");
+					System.out.println("Event Error: " + e.toString());
+				}
+			}
+		});
 		cmbTaskType.setName("taskTypeSelector");
 		cmbTaskType.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));
 		cmbTaskType.setBorder(new LineBorder(new Color(0, 0, 0)));
@@ -106,6 +148,15 @@ public class HomePageUI extends JFrame {
 		pnlNavigation.add(cmbTaskType);
 		
 		JButton btnAddStudent = new JButton("");
+		btnAddStudent.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+//				btnAddStudentActionPerformed(e);
+				pnlDatabase.removeAll();
+				pnlDatabase.add(pnlStudentEditor);
+				pnlDatabase.repaint();
+				pnlDatabase.revalidate();
+			}
+		});
 		btnAddStudent.setBounds(719, 9, 60, 60);
 		btnAddStudent.setBackground(pnlNavigation.getBackground());
 		btnAddStudent.setIcon(mainPageFunction.imgMethod((new ImageIcon(HomePageUI.class.getResource("/Icons/Navigation_Icons/plus.png"))), btnAddStudent.getWidth(), btnAddStudent.getWidth()));
@@ -127,7 +178,28 @@ public class HomePageUI extends JFrame {
 		btnSetting.setSelectedIcon(mainPageFunction.imgMethod((new ImageIcon(HomePageUI.class.getResource("/Icons/Navigation_Icons/setting-final.png"))), btnSetting.getWidth(), btnSetting.getHeight()));
 		headerPanel.add(btnSetting);
 		
+		
+		
+		JPanel teacherInfo = new TeacherInfoPanel();
+		teacherInfo.setVisible(false);
+		teacherInfo.setEnabled(false);
+		contentPane.add(teacherInfo, JLayeredPane.POPUP_LAYER);
+		
+		// Need to make the TeacherInfo panel to disappear when not in used
 		JButton btnUser = new JButton("");
+		btnUser.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(teacherInfo.isVisible() == false) {
+					teacherInfo.setLocation(0, headerPanel.getY() + headerPanel.getHeight());;
+					teacherInfo.setVisible(true);
+					teacherInfo.setEnabled(true);
+				}else {
+					teacherInfo.setVisible(false);
+					teacherInfo.setEnabled(false);
+				}
+				
+			}
+		});
 		btnUser.setFont(new Font("Tahoma", Font.PLAIN, 8));
 		btnUser.setBorder(null);
 		btnUser.setBackground(headerPanel.getBackground());
@@ -147,15 +219,26 @@ public class HomePageUI extends JFrame {
 		lblHelp.setBounds(33, 669, 55, 65);
 		lblHelp.setIcon(mainPageFunction.imgRescale((new ImageIcon(HomePageUI.class.getResource("/Icons/Navigation_Icons/help_icon.png"))), lblHelp.getWidth(), lblHelp.getHeight()));
 		contentPane.add(lblHelp);
+		tabbedPane.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if(tabbedPane.getSelectedComponent() == pnlDatabase) {
+					pnlDatabase.removeAll();
+					pnlDatabase.add(pnlMainDatabase);
+					pnlDatabase.repaint();
+					pnlDatabase.revalidate();
+				}
+			}
+		});
 		
 		// Listens to the changed of tabs to change the pnlNavigation what to show or not
 		tabbedPane.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
-//				System.out.println("Tab " + tabbedPane.getSelectedIndex());
-				if (tabbedPane.getSelectedIndex() == 0) {
+				if (tabbedPane.getSelectedIndex() == 0) { // notification tab is selected
 					pnlNavigation.setEnabled(false);
 					pnlNavigation.setVisible(false);
-				} else if (tabbedPane.getSelectedIndex() == 1) {
+					
+				} else if (tabbedPane.getSelectedIndex() == 1) { // task editor tab is selected
 					pnlNavigation.setEnabled(true);
 					pnlNavigation.setVisible(true);
 					lblSelectedTabName.setText("Task Editor");
@@ -165,7 +248,8 @@ public class HomePageUI extends JFrame {
 					btnAddStudent.setVisible(false);
 					btnSearch.setEnabled(false);
 					btnSearch.setVisible(false);
-				} else if (tabbedPane.getSelectedIndex() == 2) {
+					
+				} else if (tabbedPane.getSelectedIndex() == 2) { // Calandar tab is selected
 					pnlNavigation.setEnabled(true);
 					pnlNavigation.setVisible(true);
 					lblSelectedTabName.setText("Calendar");
@@ -175,7 +259,13 @@ public class HomePageUI extends JFrame {
 					btnAddStudent.setVisible(false);
 					btnSearch.setEnabled(false);
 					btnSearch.setVisible(false);
-				} else if (tabbedPane.getSelectedIndex() == 3) {
+					
+				} else if (tabbedPane.getSelectedIndex() == 3) { // Student database tab is selected
+					pnlDatabase.removeAll();
+					pnlDatabase.add(pnlMainDatabase);
+					pnlDatabase.repaint();
+					pnlDatabase.revalidate();
+					
 					pnlNavigation.setEnabled(true);
 					pnlNavigation.setVisible(true);
 					lblSelectedTabName.setText("Student Database");
@@ -185,6 +275,7 @@ public class HomePageUI extends JFrame {
 					btnAddStudent.setVisible(true);
 					btnSearch.setEnabled(true);
 					btnSearch.setVisible(true);
+					
 				} else {
 					pnlNavigation.setEnabled(false);
 					pnlNavigation.setVisible(false);
@@ -231,18 +322,18 @@ public class HomePageUI extends JFrame {
 		tabbedPane.setSelectedIndex(0);
 		pnlNotification.setLayout(new GridLayout(0, 2, 0, 0));
 		
-		JPanel panel = new JPanel();
-		panel.setBorder(new MatteBorder(0, 0, 0, 2, (Color) new Color(217, 217, 217)));
-		panel.setBackground(new Color(249, 249, 249));
-		pnlNotification.add(panel);
-		panel.setLayout(null);
+		JPanel pnlMainNotification = new JPanel();
+		pnlMainNotification.setBorder(new MatteBorder(0, 0, 0, 2, (Color) new Color(217, 217, 217)));
+		pnlMainNotification.setBackground(new Color(249, 249, 249));
+		pnlNotification.add(pnlMainNotification);
+		pnlMainNotification.setLayout(null);
 		
-		// Notifiction header but still don't have any functionalities
+		// Notification header but still don't have any functionalities
 		JPanel pnlNotificationHeader = new JPanel();
-		pnlNotificationHeader.setBorder(new MatteBorder(0, 0, 2, 2, (Color) new Color(217, 217, 217)));
+		pnlNotificationHeader.setBounds(0, 0, 672, 80);
+		pnlNotificationHeader.setBorder(new MatteBorder(0, 0, 2, 0, (Color) new Color(217, 217, 217)));
 		pnlNotificationHeader.setBackground(new Color(249, 249, 249));
-		pnlNotificationHeader.setBounds(0, 0, 624, 80); // fix the conflict for the border of the header and the panelFeed
-		panel.add(pnlNotificationHeader);
+		pnlMainNotification.add(pnlNotificationHeader);
 		pnlNotificationHeader.setLayout(null);
 		
 		JLabel lblNotificationFeed = new JLabel("Feed");
@@ -254,11 +345,11 @@ public class HomePageUI extends JFrame {
 		lblFilterMenu.setBounds(557, 24, 36, 32);
 		lblFilterMenu.setIcon(mainPageFunction.imgMethodNonButton((new ImageIcon(HomePageUI.class.getResource("/Icons/Navigation_Icons/menuShortend.png"))), lblFilterMenu.getBounds().width, lblFilterMenu.getBounds().height ));
 		pnlNotificationHeader.add(lblFilterMenu);
+		pnlMainNotification.setLayout(null);
 		
 		JLabel lblLogo = new JLabel("");
 		lblLogo.setIcon(mainPageFunction.imgMethodNonButton((new ImageIcon(HomePageUI.class.getResource("/Icons/MainLogo.png"))), 650, 650));
 		pnlNotification.add(lblLogo);
-		
 		
 		
 		JPanel pnlTaskEditor = new JPanel();
@@ -267,119 +358,24 @@ public class HomePageUI extends JFrame {
 		tabbedPane.setTabComponentAt(1, taskEditorIcon);
 		pnlTaskEditor.setLayout(new GridLayout(0, 2, 0, 0));
 		
-		JPanel pnlTaskMainEditor = new JPanel();
-		pnlTaskMainEditor.setBackground(new Color(251, 251, 251));
-		pnlTaskEditor.add(pnlTaskMainEditor);
-		pnlTaskMainEditor.setLayout(null);
+		//Main Editor view for the task editor
+		pnlTaskEditor.add(pnlMainEditorView);
+		pnlMainEditorView.setLayout(new CardLayout(0, 0));
 		
-		JButton btnSavePrint = new JButton("Save and Print");
-		btnSavePrint.setForeground(new Color(255, 255, 255));
-		btnSavePrint.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));
-		btnSavePrint.setBorder(null);
-		btnSavePrint.setBackground(new Color(52, 81, 104));
-		btnSavePrint.setBounds(289, 572, 125, 30);
-		pnlTaskMainEditor.add(btnSavePrint);
+		// Adding the panel for the MainEditor View of the Task Editor
+		pnlMainEditorView.add(pnlLateSlip, "name_2042741809800");
+		pnlLateSlip.setBackground(new Color(251, 251, 251));
+		pnlLateSlip.setLayout(null);
 		
-		JLabel lblStudentName = new JLabel("Student Name");
-		lblStudentName.setHorizontalAlignment(SwingConstants.LEFT);
-		lblStudentName.setFont(new Font("Segoe UI", Font.PLAIN, 20));
-		lblStudentName.setBounds(52, 80, 139, 30);
-		pnlTaskMainEditor.add(lblStudentName);
+		pnlMainEditorView.add(pnlAbsentSlip, "name_3553812071800");
+		pnlAbsentSlip.setLayout(null);
 		
-		txtStudentName = new JTextField();
-		lblStudentName.setLabelFor(txtStudentName);
-		txtStudentName.setBorder(new LineBorder(new Color(191, 191, 191), 2));
-		txtStudentName.setBackground(new Color(255, 255, 255));
-		txtStudentName.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-		txtStudentName.setBounds(52, 112, 240, 35);
-		pnlTaskMainEditor.add(txtStudentName);
-		txtStudentName.setColumns(10);
+		pnlMainEditorView.add(pnlCallParent, "name_16829928427899");
+		pnlCallParent.setBackground(new Color(251, 251, 251));
+		pnlCallParent.setLayout(null);
 		
-		txtDueDate = new JTextField();
-		txtDueDate.setFont(new Font("Segoe UI", Font.PLAIN, 12));
-		txtDueDate.setColumns(10);
-		txtDueDate.setBorder(new LineBorder(new Color(191, 191, 191), 2));
-		txtDueDate.setBackground(Color.WHITE);
-		txtDueDate.setBounds(344, 112, 150, 35);
-		pnlTaskMainEditor.add(txtDueDate);
-		
-		JLabel lblDueDate = new JLabel("Due Date");
-		lblDueDate.setLabelFor(txtDueDate);
-		lblDueDate.setHorizontalAlignment(SwingConstants.LEFT);
-		lblDueDate.setFont(new Font("Segoe UI", Font.PLAIN, 20));
-		lblDueDate.setBounds(344, 80, 139, 30);
-		pnlTaskMainEditor.add(lblDueDate);
-		
-		JLabel lblPriority = new JLabel("Priority");
-		lblPriority.setHorizontalAlignment(SwingConstants.LEFT);
-		lblPriority.setFont(new Font("Segoe UI", Font.PLAIN, 20));
-		lblPriority.setBounds(52, 188, 139, 30);
-		pnlTaskMainEditor.add(lblPriority);
-		
-		JComboBox cmbPriority = new JComboBox();
-		cmbPriority.setBorder(txtStudentName.getBorder());
-		cmbPriority.setBackground(new Color(255, 255, 255));
-		cmbPriority.setModel(new DefaultComboBoxModel(new String[] {"Select Priority", "High ", "Medium", "Low"}));
-		cmbPriority.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-		cmbPriority.setBounds(52, 224, 240, 35);
-		pnlTaskMainEditor.add(cmbPriority);
-		
-		JLabel lblTaskCode = new JLabel("Task code");
-		lblTaskCode.setHorizontalAlignment(SwingConstants.LEFT);
-		lblTaskCode.setFont(new Font("Segoe UI", Font.PLAIN, 20));
-		lblTaskCode.setBounds(344, 188, 139, 30);
-		pnlTaskMainEditor.add(lblTaskCode);
-		
-		txtTaskCode = new JTextField();
-		txtTaskCode.setFont(new Font("Segoe UI", Font.PLAIN, 12));
-		txtTaskCode.setColumns(10);
-		txtTaskCode.setBorder(new LineBorder(new Color(191, 191, 191), 2));
-		txtTaskCode.setBackground(Color.WHITE);
-		txtTaskCode.setBounds(344, 224, 240, 35);
-		pnlTaskMainEditor.add(txtTaskCode);
-		
-		JLabel lblTaskName = new JLabel("Task Name");
-		lblTaskName.setHorizontalAlignment(SwingConstants.LEFT);
-		lblTaskName.setFont(new Font("Segoe UI", Font.PLAIN, 20));
-		lblTaskName.setBounds(52, 306, 139, 30);
-		pnlTaskMainEditor.add(lblTaskName);
-		
-		textField = new JTextField();
-		textField.setFont(new Font("Segoe UI", Font.PLAIN, 12));
-		textField.setColumns(10);
-		textField.setBorder(new LineBorder(new Color(191, 191, 191), 2));
-		textField.setBackground(Color.WHITE);
-		textField.setBounds(52, 340, 532, 35);
-		pnlTaskMainEditor.add(textField);
-		
-		JLabel lblNotes = new JLabel("Notes");
-		lblNotes.setHorizontalAlignment(SwingConstants.LEFT);
-		lblNotes.setFont(new Font("Segoe UI", Font.PLAIN, 20));
-		lblNotes.setBounds(52, 424, 139, 30);
-		pnlTaskMainEditor.add(lblNotes);
-		
-		JTextArea txtrNotes = new JTextArea();
-		txtrNotes.setBorder(txtStudentName.getBorder());
-		txtrNotes.setFont(new Font("Segoe UI", Font.PLAIN, 12));
-		txtrNotes.setText("Description Here");
-		txtrNotes.setBounds(52, 459, 532, 70);
-		pnlTaskMainEditor.add(txtrNotes);
-		
-		JButton btnSave = new JButton("Save");
-		btnSave.setForeground(new Color(255, 255, 255));
-		btnSave.setBackground(new Color(21, 135, 89));
-		btnSave.setBorder(null);
-		btnSave.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));
-		btnSave.setBounds(424, 572, 75, 30);
-		pnlTaskMainEditor.add(btnSave);
-		
-		JButton btnCancel = new JButton("Cancel");
-		btnCancel.setForeground(Color.WHITE);
-		btnCancel.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));
-		btnCancel.setBorder(null);
-		btnCancel.setBackground(new Color(78, 78, 78));
-		btnCancel.setBounds(509, 572, 75, 30);
-		pnlTaskMainEditor.add(btnCancel);
+		pnlMainEditorView.add(pnlDropSlip);
+//		pnlDropSlip.setBackground(Color.WHITE);
 		
 		JPanel pnlPrintView = new JPanel();
 		pnlPrintView.setBackground(new Color(245, 245, 245));
@@ -388,30 +384,75 @@ public class HomePageUI extends JFrame {
 		JPanel pnlCalendar = new JPanel();
 		pnlCalendar.setBackground(Color.WHITE);
 		tabbedPane.addTab("", pnlCalendar);
+		pnlCalendar.setLayout(new GridLayout(1, 0, 0, 0));
+		
+		JCalendar calendar = new JCalendar();
+		pnlCalendar.add(calendar);
 		tabbedPane.setTabComponentAt(2, calendarIcon);
 		
-		JPanel pnlDatabase = new JPanel();
+
 		pnlDatabase.setBackground(new Color(255, 255, 255));
 		tabbedPane.addTab("", pnlDatabase);
 		tabbedPane.setTabComponentAt(3, studentDatabaseIcon);
-		pnlDatabase.setLayout(null);
+		pnlDatabase.setLayout(new CardLayout(0, 0));
 		
-		JPanel studentInfo = new RoundedPanel();
-		studentInfo.setBounds(70, 35, 300, 150);
-		studentInfo.setBackground(new Color(166, 166, 166));
-		pnlDatabase.add(studentInfo);
+		// Need to have a separate Database checker on a separate file for every update of it.
+		pnlDatabase.add(pnlMainDatabase, "name_39619880518700");
 		
-		RoundedPanel studentInfo1 = new RoundedPanel();
-		studentInfo1.setLocation(460, 35);
-		studentInfo1.setSize(studentInfo.getSize());
-		studentInfo1.setBackground(new Color(177, 33, 33));
-		pnlDatabase.add(studentInfo1);
+		pnlDatabase.add(pnlStudentEditor, "name_40068080409600");
 		
-		RoundedPanel studentInfo2 = new RoundedPanel();
-		studentInfo2.setLocation(850, 35);
-		studentInfo2.setSize(studentInfo.getSize());
-		studentInfo2.setBackground(new Color(77, 111, 255));
-		pnlDatabase.add(studentInfo2);
+		JPanel pnlStudentInfo = new StudentInfoPanel(pnlDatabase, pnlStudentEditor);
+		pnlDatabase.add(pnlStudentInfo, "name_40082168911300");
+		GridBagLayout gbl_pnlMainDatabase = new GridBagLayout();
+		gbl_pnlMainDatabase.columnWidths = new int[]{1349, 0};
+		gbl_pnlMainDatabase.rowHeights = new int[]{657, 0};
+		gbl_pnlMainDatabase.columnWeights = new double[]{0.0, Double.MIN_VALUE};
+		gbl_pnlMainDatabase.rowWeights = new double[]{1.0, Double.MIN_VALUE};
+		pnlMainDatabase.setLayout(gbl_pnlMainDatabase);
+		
+		JPanel pnlStudentDatabase = new JPanel();
+		GridBagConstraints gbc_pnlStudentDatabase = new GridBagConstraints();
+		gbc_pnlStudentDatabase.fill = GridBagConstraints.BOTH;
+		gbc_pnlStudentDatabase.gridx = 0;
+		gbc_pnlStudentDatabase.gridy = 0;
+		pnlMainDatabase.add(pnlStudentDatabase, gbc_pnlStudentDatabase);
+		GridBagLayout gbl_pnlStudentDatabase = new GridBagLayout();
+		gbl_pnlStudentDatabase.columnWidths = new int[]{60, 300, 60, 300, 60, 300, 60, 60};
+		gbl_pnlStudentDatabase.rowHeights = new int[]{150, 0};
+		gbl_pnlStudentDatabase.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_pnlStudentDatabase.rowWeights = new double[]{0.0, Double.MIN_VALUE};
+		pnlStudentDatabase.setLayout(gbl_pnlStudentDatabase);
+		
+		JPanel studentInfoCard = new RoundedPanel(pnlDatabase, pnlStudentInfo);
+		GridBagConstraints gbc_studentInfoCard = new GridBagConstraints();
+		gbc_studentInfoCard.fill = GridBagConstraints.BOTH;
+		gbc_studentInfoCard.insets = new Insets(0, 0, 0, 5);
+		gbc_studentInfoCard.gridx = 1;
+		gbc_studentInfoCard.gridy = 0;
+		pnlStudentDatabase.add(studentInfoCard, gbc_studentInfoCard);
+		studentInfoCard.setBackground(new Color(166, 166, 166));
+		
+		RoundedPanel studentInfoCard1 = new RoundedPanel(pnlDatabase, pnlStudentInfo);
+		GridBagConstraints gbc_studentInfoCard1 = new GridBagConstraints();
+		gbc_studentInfoCard1.fill = GridBagConstraints.BOTH;
+		gbc_studentInfoCard1.insets = new Insets(0, 0, 0, 5);
+		gbc_studentInfoCard1.gridx = 3;
+		gbc_studentInfoCard1.gridy = 0;
+		pnlStudentDatabase.add(studentInfoCard1, gbc_studentInfoCard1);
+		studentInfoCard1.setBackground(new Color(177, 33, 33));
+		
+		RoundedPanel studentInfoCard2 = new RoundedPanel(pnlDatabase, pnlStudentInfo);
+		GridBagConstraints gbc_studentInfoCard2 = new GridBagConstraints();
+		gbc_studentInfoCard2.insets = new Insets(0, 0, 0, 5);
+		gbc_studentInfoCard2.fill = GridBagConstraints.BOTH;
+		gbc_studentInfoCard2.gridx = 5;
+		gbc_studentInfoCard2.gridy = 0;
+		pnlStudentDatabase.add(studentInfoCard2, gbc_studentInfoCard2);
+		studentInfoCard2.setBackground(new Color(77, 111, 255));
+		
+		JPanel pnlAddStudent = new AddStudentPanel();
+		pnlDatabase.add(pnlAddStudent, "name_7061897389500");
+		
 	}
 	
 	

@@ -2,6 +2,7 @@ package com.StudentManagement;
 
 import javax.swing.JPanel;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.ImageIcon;
 import java.awt.Color;
 import javax.swing.border.LineBorder;
@@ -15,17 +16,22 @@ import javax.swing.JFrame;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.PreparedStatement;
+import java.util.Arrays;
 import java.awt.GridLayout;
 import java.awt.Rectangle;
 import java.awt.CardLayout;
 import java.awt.FlowLayout;
 import javax.swing.JPasswordField;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 
 public class TeacherRegisterInput extends JPanel  {
+	private conDB con = new conDB();
 	private final JLabel lblPicTeacher = new JLabel("");
-	private JPasswordField txtFirstName;
-	private JTextField textField;
+	private JPasswordField pwdPassword;
+	private JTextField txtFirstName;
 	private JTextField txtLastName;
 	private JLabel lblEmployeeNumber;
 	private JTextField txtEmployeeNumber;
@@ -33,11 +39,13 @@ public class TeacherRegisterInput extends JPanel  {
 	private JTextField txtEmailAddress;
 	private JLabel lblPassword;
 	private JLabel lblRetypePassword;
-	private JPasswordField txtRetypePassword;
+	private JPasswordField pwdRetypePassword;
 	private JLabel lblPasswordNotice;
 	private JPanel pnlLoginAccount;
 	private JPanel pnlAccountCreator;
 	private JPanel imagePanel;
+	private JLabel lblUsername;
+	private JTextField txtUsername;
 
 	/**
 	 * Create the panel.
@@ -66,25 +74,27 @@ public class TeacherRegisterInput extends JPanel  {
 		add(pnlAccountCreator);
 		pnlAccountCreator.setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("Create your account");
-		lblNewLabel.setBounds(98, 37, 488, 57);
-		pnlAccountCreator.add(lblNewLabel);
-		lblNewLabel.setForeground(new Color(255, 255, 255));
-		lblNewLabel.setFont(new Font("Segoe UI", Font.BOLD, 48));
-		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		JLabel lblCreateAccount = new JLabel("Create your account");
+		lblCreateAccount.setBounds(98, 37, 488, 57);
+		pnlAccountCreator.add(lblCreateAccount);
+		lblCreateAccount.setForeground(new Color(255, 255, 255));
+		lblCreateAccount.setFont(new Font("Segoe UI", Font.BOLD, 48));
+		lblCreateAccount.setHorizontalAlignment(SwingConstants.CENTER);
 		
-		txtFirstName = new JPasswordField();
-		txtFirstName.setBounds(65, 366, 567, 35);
+		pwdPassword = new JPasswordField();
+		pwdPassword.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+		pwdPassword.setBounds(65, 446, 567, 35);
+		pnlAccountCreator.add(pwdPassword);
+		pwdPassword.setAlignmentX(Component.RIGHT_ALIGNMENT);
+		pwdPassword.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
+		pwdPassword.setColumns(10);
+		
+		txtFirstName = new JTextField();
+		txtFirstName.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+		txtFirstName.setBounds(65, 152, 267, 35);
 		pnlAccountCreator.add(txtFirstName);
-		txtFirstName.setAlignmentX(Component.RIGHT_ALIGNMENT);
-		txtFirstName.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
 		txtFirstName.setColumns(10);
-		
-		textField = new JTextField();
-		textField.setBounds(65, 152, 267, 35);
-		pnlAccountCreator.add(textField);
-		textField.setColumns(10);
-		textField.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
+		txtFirstName.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
 		
 		JLabel lblLastName = new JLabel("Last name");
 		lblLastName.setBounds(367, 117, 145, 35);
@@ -98,11 +108,12 @@ public class TeacherRegisterInput extends JPanel  {
 		lblLastName.setLabelFor(txtLastName);
 		
 		txtLastName = new JTextField();
+		txtLastName.setFont(new Font("Segoe UI", Font.PLAIN, 18));
 		txtLastName.setBounds(367, 152, 265, 35);
 		pnlAccountCreator.add(txtLastName);
 		txtLastName.setColumns(10);
 		txtLastName.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
-		lblFirstName.setLabelFor(txtFirstName);
+		lblFirstName.setLabelFor(pwdPassword);
 		
 		
 		lblEmployeeNumber = new JLabel("Employee number");
@@ -112,48 +123,100 @@ public class TeacherRegisterInput extends JPanel  {
 		lblEmployeeNumber.setLabelFor(txtEmployeeNumber);
 		
 		txtEmployeeNumber = new JTextField();
+		txtEmployeeNumber.setFont(new Font("Segoe UI", Font.PLAIN, 18));
 		txtEmployeeNumber.setBounds(65, 253, 267, 35);
 		pnlAccountCreator.add(txtEmployeeNumber);
 		txtEmployeeNumber.setColumns(10);
 		txtEmployeeNumber.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
 		
+		lblUsername = new JLabel("Username");
+		lblUsername.setFont(new Font("Segoe UI", Font.PLAIN, 24));
+		lblUsername.setBounds(369, 214, 203, 35);
+		pnlAccountCreator.add(lblUsername);
+		
+		txtUsername = new JTextField();
+		txtUsername.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+		txtUsername.setColumns(10);
+		txtUsername.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
+		txtUsername.setBounds(367, 253, 267, 35);
+		pnlAccountCreator.add(txtUsername);
+		
 		lblEmailAddress = new JLabel("Email address");
-		lblEmailAddress.setBounds(367, 214, 154, 35);
+		lblEmailAddress.setBounds(65, 313, 154, 35);
 		pnlAccountCreator.add(lblEmailAddress);
 		lblEmailAddress.setFont(new Font("Segoe UI", Font.PLAIN, 24));
 		lblEmailAddress.setLabelFor(txtEmailAddress);
 		
 		txtEmailAddress = new JTextField();
-		txtEmailAddress.setBounds(367, 253, 265, 35);
+		txtEmailAddress.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+		txtEmailAddress.setBounds(65, 352, 567, 35);
 		pnlAccountCreator.add(txtEmailAddress);
 		txtEmailAddress.setColumns(10);
 		txtEmailAddress.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
 		
 		lblPassword = new JLabel("Password");
-		lblPassword.setBounds(65, 331, 145, 35);
+		lblPassword.setBounds(65, 411, 145, 35);
 		pnlAccountCreator.add(lblPassword);
 		lblPassword.setFont(new Font("Segoe UI", Font.PLAIN, 24));
 		
 		lblRetypePassword = new JLabel("Retype Password");
-		lblRetypePassword.setBounds(65, 462, 184, 35);
+		lblRetypePassword.setBounds(65, 529, 184, 35);
 		pnlAccountCreator.add(lblRetypePassword);
 		lblRetypePassword.setFont(new Font("Segoe UI", Font.PLAIN, 24));
 		
-		txtRetypePassword = new JPasswordField();
-		txtRetypePassword.setBounds(65, 497, 567, 35);
-		pnlAccountCreator.add(txtRetypePassword);
-		txtRetypePassword.setColumns(10);
-		txtRetypePassword.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
-		txtRetypePassword.setAlignmentX(1.0f);
+		pwdRetypePassword = new JPasswordField();
+		pwdRetypePassword.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+		pwdRetypePassword.setBounds(65, 564, 567, 35);
+		pnlAccountCreator.add(pwdRetypePassword);
+		pwdRetypePassword.setColumns(10);
+		pwdRetypePassword.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
+		pwdRetypePassword.setAlignmentX(1.0f);
 		
 		lblPasswordNotice = new JLabel("Make sure it's\u00A0at least 15 characters\u00A0OR\u00A0at least 8 characters\u00A0including a number\u00A0and a lowercase letter.");
-		lblPasswordNotice.setBounds(65, 403, 567, 35);
+		lblPasswordNotice.setBounds(65, 483, 567, 35);
 		pnlAccountCreator.add(lblPasswordNotice);
 		lblPasswordNotice.setForeground(new Color(88, 96, 105));
 		lblPasswordNotice.setFont(new Font("Arial", Font.PLAIN, 12));
 		
 		JButton btnCreateAccount = new JButton("Create Account");
-		btnCreateAccount.setBounds(260, 610, 173, 47);
+		btnCreateAccount.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if( Arrays.equals(pwdPassword.getPassword(), pwdRetypePassword.getPassword())) {
+					try {
+						String sqlCreateAccount = "INSERT INTO user_info(username, first_name, last_name, user_type, email, ID_user, password) VALUES (?, ?, ?, ?, ?, ?, ?)";
+						PreparedStatement statement = con.connectionString().prepareStatement(sqlCreateAccount);
+						
+						// need to add md5 and salt for encryption of the database
+						statement.setString(1, txtUsername.getText());
+						statement.setString(2, txtFirstName.getText());
+						statement.setString(3, txtLastName.getText());
+						statement.setBoolean(4, false);
+						statement.setString(5, txtEmailAddress.getText());
+						statement.setInt(6, Integer.valueOf(txtEmployeeNumber.getText()));
+						statement.setString(7, String.valueOf(pwdPassword.getPassword()));
+						
+						statement.executeUpdate();
+						
+						JOptionPane.showMessageDialog(null, "Account Created Succesfully");
+						
+						txtEmailAddress.setText("");
+						txtFirstName.setText("");
+						txtLastName.setText("");
+						txtUsername.setText("");
+						txtEmployeeNumber.setText("");
+						pwdPassword.setText("");
+						pwdRetypePassword.setText("");
+	
+					} catch (Exception e2) {
+						// TODO: handle exception
+						System.out.println("Creating Account error: " + e2);
+					}
+				} else {
+					// need to add lbl for error indicators
+				}
+			}
+		});
+		btnCreateAccount.setBounds(260, 635, 173, 47);
 		pnlAccountCreator.add(btnCreateAccount);
 		btnCreateAccount.setBorder(null);
 		btnCreateAccount.setBackground(new Color(47, 74, 95));
@@ -161,7 +224,7 @@ public class TeacherRegisterInput extends JPanel  {
 		btnCreateAccount.setFont(new Font("Arial", Font.PLAIN, 16));
 		
 		pnlLoginAccount = new JPanel();
-		pnlLoginAccount.setBounds(260, 668, 173, 19);
+		pnlLoginAccount.setBounds(260, 693, 173, 19);
 		pnlAccountCreator.add(pnlLoginAccount);
 		pnlLoginAccount.addMouseListener(new MouseAdapter() {
 			@Override
