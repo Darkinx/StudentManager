@@ -1,30 +1,23 @@
 package com.StudentManagement;
 
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import java.awt.Toolkit;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import javax.swing.JPanel;
 import java.awt.Color;
-import javax.swing.border.MatteBorder;
-import javax.swing.JButton;
-import javax.swing.ImageIcon;
+import java.awt.EventQueue;
 import java.awt.Font;
-import javax.swing.JLabel;
-import javax.swing.SwingConstants;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 import java.awt.GridLayout;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+import javax.swing.border.MatteBorder;
 
 public class StartPageUI extends JFrame {
 
-	LoginFrame loginFrame = new LoginFrame(); //Login UI for some dropdown shit in the btnUser
-	int Thour, Tminute, Tsec, month, day, year;
-	JLabel lblDate = new javax.swing.JLabel();
-	JLabel lblTime = new javax.swing.JLabel();
 	
 	/**
 	 * Launch the application.
@@ -56,6 +49,7 @@ public class StartPageUI extends JFrame {
 				try {
 					StartPageUI frame = new StartPageUI();
 					frame.setVisible(true);
+					frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -71,7 +65,6 @@ public class StartPageUI extends JFrame {
 		setResizable(false);
 		setName("MainFrame");
 		setBackground(Color.WHITE);
-		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		getContentPane().setBackground(new Color(255, 255, 255));
 		setIconImage(Toolkit.getDefaultToolkit().getImage(StartPageUI.class.getResource("/Icons/SNSMLogo_Text.png")));
 		setTitle("SNSM-Welcome");
@@ -85,6 +78,7 @@ public class StartPageUI extends JFrame {
 		homePane.setLayout(null);
 		
 		JPanel loginPanel = new LoginPanel(this); // adding the Login Panel and giving this frame to dispose
+		loginPanel.setBounds(( 1115 - (int)(300 * 0.35)), 88, 300, 375);
 		loginPanel.setVisible(false);
 		loginPanel.setEnabled(false);
 		homePane.add(loginPanel);
@@ -99,6 +93,7 @@ public class StartPageUI extends JFrame {
 		JButton btnSetting = new JButton("");
 		btnSetting.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
 			}
 		});
 		btnSetting.setBorder(null);
@@ -114,7 +109,6 @@ public class StartPageUI extends JFrame {
 				if(loginPanel.isVisible() == false) {
 				loginPanel.setVisible(true);
 				loginPanel.setEnabled(true);
-				loginPanel.setBounds((btnUser.getBounds().x - (int)(loginFrame.getWidth() * 0.35)), btnUser.getBounds().height, 300, 375);
 				}else {
 					loginPanel.setEnabled(false);
 					loginPanel.setVisible(false);

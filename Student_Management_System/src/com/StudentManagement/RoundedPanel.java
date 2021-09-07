@@ -3,21 +3,24 @@ package com.StudentManagement;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 
-import javax.swing.JPanel;
-import javax.swing.border.LineBorder;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
-import java.awt.Font;
+import javax.swing.JPanel;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 
 
 /**
  * @see https://www.codeproject.com/articles/114959/rounded-border-jpanel-jpanel-graphics-improvements
  * for more information
+ * 
+ * also in needs to incorporate the database for the three labels and image
  *
  */
 public class RoundedPanel extends JPanel {
@@ -46,8 +49,17 @@ public class RoundedPanel extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public RoundedPanel() {
+	public  RoundedPanel(JPanel DatabasePanel, JPanel StudentInfo) {
 		super();
+		addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				DatabasePanel.removeAll();
+				DatabasePanel.add(StudentInfo);
+				DatabasePanel.repaint();
+				DatabasePanel.revalidate();
+			}
+		});
 		setOpaque(false);
 		setBounds(0, 0, 300, 150);
 		setLayout(null);
@@ -76,9 +88,13 @@ public class RoundedPanel extends JPanel {
 		lblAge.setBounds(135, 104, 162, 20);
 		add(lblAge);
 		
-		JLabel lblNewLabel = new JLabel(mainPageFunction.imgCircle(mainPageFunction.imgRescale((new ImageIcon(RoundedPanel.class.getResource("/Icons/Others/Student.jpg"))), 118, 118)));
-		lblNewLabel.setBounds(10, 16, 118, 118);
-		add(lblNewLabel);
+		JLabel lblPicture = new JLabel(mainPageFunction.imgCircle(
+				mainPageFunction.imgRescale(
+						(new ImageIcon(RoundedPanel.class.getResource("/Icons/Others/Student.jpg"))), 118, 118)
+				));
+	
+		lblPicture.setBounds(10, 16, 118, 118);
+		add(lblPicture);
 
 	}
 	

@@ -13,8 +13,11 @@ import java.util.Locale;
  */
 
 /** Need to address the need of independent initiation of the database
- * and its security capability
- * this is temporary for now too prioritize the main functionality.
+ * and its security capability probably using SHA-512 and some salting iterations
+ * this is temporary for now to prioritize the main functionality.
+ * 
+ * @see this query from stackoverflow about hashing and salting
+ *  here: https://stackoverflow.com/questions/18142745/how-do-i-generate-a-salt-in-java-for-salted-hash
 */
 public class conDB {
 	public Connection connectionString() {
@@ -22,7 +25,7 @@ public class conDB {
 		try {
 			Locale.setDefault(Locale.ENGLISH);
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			conn = DriverManager.getConnection("jdbc:mysql://localhost/Student_manager", "root", "");
+			conn = DriverManager.getConnection("jdbc:mysql://localhost/student_manager", "root", "");
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.print(e);
