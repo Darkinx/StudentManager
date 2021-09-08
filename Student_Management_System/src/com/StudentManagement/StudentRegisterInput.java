@@ -22,6 +22,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
+import java.awt.Cursor;
 
 public class StudentRegisterInput extends JPanel {
 
@@ -144,6 +145,7 @@ public class StudentRegisterInput extends JPanel {
 		pnlAccountCreator.add(lblPasswordNotice);
 		
 		JButton btnCreateAccount = new JButton("Create Account");
+		btnCreateAccount.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnCreateAccount.addActionListener(new ActionListener() {
 			
 			// Need to add some notice or warnings when a field wasn't fill out
@@ -197,6 +199,7 @@ public class StudentRegisterInput extends JPanel {
 		pnlAccountCreator.add(btnCreateAccount);
 		
 		JPanel pnlLoginAccount = new JPanel();
+		pnlLoginAccount.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		pnlLoginAccount.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {

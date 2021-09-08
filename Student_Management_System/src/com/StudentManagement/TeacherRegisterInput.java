@@ -25,6 +25,7 @@ import java.awt.FlowLayout;
 import javax.swing.JPasswordField;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Cursor;
 
 
 public class TeacherRegisterInput extends JPanel  {
@@ -179,6 +180,7 @@ public class TeacherRegisterInput extends JPanel  {
 		lblPasswordNotice.setFont(new Font("Arial", Font.PLAIN, 12));
 		
 		JButton btnCreateAccount = new JButton("Create Account");
+		btnCreateAccount.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnCreateAccount.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if( Arrays.equals(pwdPassword.getPassword(), pwdRetypePassword.getPassword())) {
@@ -224,6 +226,7 @@ public class TeacherRegisterInput extends JPanel  {
 		btnCreateAccount.setFont(new Font("Arial", Font.PLAIN, 16));
 		
 		pnlLoginAccount = new JPanel();
+		pnlLoginAccount.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		pnlLoginAccount.setBounds(260, 693, 173, 19);
 		pnlAccountCreator.add(pnlLoginAccount);
 		pnlLoginAccount.addMouseListener(new MouseAdapter() {

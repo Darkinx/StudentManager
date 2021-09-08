@@ -54,6 +54,8 @@ public class HomePageUI extends JFrame {
 	private JPanel pnlCallParent = new CallParentPanel(); // Panel for CallParent Slip on the Task Editor
 	private JPanel pnlDropSlip = new DropSlipPanel(); // Panel for the Drop Slip option of Task Editor
 	
+	JButton btnUser = new JButton(""); // Button for the User tab part
+	
 	
 	
 //	/**
@@ -105,13 +107,60 @@ public class HomePageUI extends JFrame {
 		headerPanel.add(pnlNavigation);
 		pnlNavigation.setLayout(null);
 		
+		JPanel teacherInfo = new TeacherInfoPanel(btnUser);
+		teacherInfo.setVisible(false);
+		teacherInfo.setEnabled(false);
+		contentPane.add(teacherInfo, JLayeredPane.POPUP_LAYER);
+		lblTime.setVerticalAlignment(SwingConstants.BOTTOM);
+		
+		JButton btnSetting = new JButton("");
+		btnSetting.setBorder(null);
+		btnSetting.setBackground(headerPanel.getBackground());
+		btnSetting.setBounds(1042, 0, 88, 88);
+		btnSetting.setIcon(mainPageFunction.imgMethod((new ImageIcon(HomePageUI.class.getResource("/Icons/Navigation_Icons/setting-final.png"))), btnSetting.getWidth(), btnSetting.getHeight()));
+		btnSetting.setSelectedIcon(mainPageFunction.imgMethod((new ImageIcon(HomePageUI.class.getResource("/Icons/Navigation_Icons/setting-final.png"))), btnSetting.getWidth(), btnSetting.getHeight()));
+		headerPanel.add(btnSetting);
+		
+		// Need to make the TeacherInfo panel to disappear when not in used
+		btnUser.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(teacherInfo.isVisible() == false) {
+					teacherInfo.setLocation(0, headerPanel.getY() + headerPanel.getHeight());;
+					teacherInfo.setVisible(true);
+					teacherInfo.setEnabled(true);
+					headerPanel.setBackground(new Color(139, 164, 255));
+					btnUser.setBackground(headerPanel.getBackground());
+					btnSetting.setBackground(headerPanel.getBackground());
+					pnlNavigation.setEnabled(false);
+					pnlNavigation.setVisible(false);
+				}else {
+					pnlNavigation.setEnabled(true);
+					pnlNavigation.setVisible(true);
+					teacherInfo.setVisible(false);
+					teacherInfo.setEnabled(false);
+					headerPanel.setBackground(new Color(242, 242, 242));
+					btnUser.setBackground(headerPanel.getBackground());
+					btnSetting.setBackground(headerPanel.getBackground());
+				}
+				
+			}
+		});
+		btnUser.setFont(new Font("Tahoma", Font.PLAIN, 8));
+		btnUser.setBorder(null);
+		btnUser.setBackground(headerPanel.getBackground());
+		btnUser.setBounds(944, 0, 88, 88);
+		btnUser.setIcon(mainPageFunction.imgMethod((new ImageIcon(HomePageUI.class.getResource("/Icons/Navigation_Icons/User.png"))), btnUser.getWidth(), btnUser.getHeight()));
+		headerPanel.add(btnUser);
+		
+		
 		JLabel lblSelectedTabName = new JLabel("Task Editor");
 		lblSelectedTabName.setForeground(new Color(92, 92, 92));
 		lblSelectedTabName.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 32));
 		lblSelectedTabName.setBounds(10, 20, 316, 38);
 		pnlNavigation.add(lblSelectedTabName);
 		
-		JComboBox<String> cmbTaskType = new JComboBox();
+		// Need to fix the comboBox model to prevent messing up things
+		JComboBox<String> cmbTaskType = new JComboBox<String>();
 		cmbTaskType.setModel(new DefaultComboBoxModel(new String[] {"Late Slip", "Absent Slip", "Complaint", "Drop Slip"}));
 		cmbTaskType.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -170,48 +219,10 @@ public class HomePageUI extends JFrame {
 		btnSearch.setBorder(null);
 		pnlNavigation.add(btnSearch);
 		
-		JButton btnSetting = new JButton("");
-		btnSetting.setBorder(null);
-		btnSetting.setBackground(headerPanel.getBackground());
-		btnSetting.setBounds(1042, 0, 88, 88);
-		btnSetting.setIcon(mainPageFunction.imgMethod((new ImageIcon(HomePageUI.class.getResource("/Icons/Navigation_Icons/setting-final.png"))), btnSetting.getWidth(), btnSetting.getHeight()));
-		btnSetting.setSelectedIcon(mainPageFunction.imgMethod((new ImageIcon(HomePageUI.class.getResource("/Icons/Navigation_Icons/setting-final.png"))), btnSetting.getWidth(), btnSetting.getHeight()));
-		headerPanel.add(btnSetting);
-		
-		
-		
-		JPanel teacherInfo = new TeacherInfoPanel();
-		teacherInfo.setVisible(false);
-		teacherInfo.setEnabled(false);
-		contentPane.add(teacherInfo, JLayeredPane.POPUP_LAYER);
-		
-		// Need to make the TeacherInfo panel to disappear when not in used
-		JButton btnUser = new JButton("");
-		btnUser.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if(teacherInfo.isVisible() == false) {
-					teacherInfo.setLocation(0, headerPanel.getY() + headerPanel.getHeight());;
-					teacherInfo.setVisible(true);
-					teacherInfo.setEnabled(true);
-				}else {
-					teacherInfo.setVisible(false);
-					teacherInfo.setEnabled(false);
-				}
-				
-			}
-		});
-		btnUser.setFont(new Font("Tahoma", Font.PLAIN, 8));
-		btnUser.setBorder(null);
-		btnUser.setBackground(headerPanel.getBackground());
-		btnUser.setBounds(944, 0, 88, 88);
-		btnUser.setIcon(mainPageFunction.imgMethod((new ImageIcon(HomePageUI.class.getResource("/Icons/Navigation_Icons/User.png"))), btnUser.getWidth(), btnUser.getHeight()));
-		headerPanel.add(btnUser);
-		lblTime.setVerticalAlignment(SwingConstants.BOTTOM);
-		
 		
 		lblTime.setForeground(new Color(58, 58, 58));
 		lblTime.setHorizontalTextPosition(SwingConstants.CENTER);
-		lblTime.setFont(new Font("Bebas", Font.PLAIN, 60));
+		lblTime.setFont(new Font("Bebas Neue", Font.BOLD, 60));
 		lblTime.setBounds(1158, 11, 202, 67);
 		headerPanel.add(lblTime);
 		
