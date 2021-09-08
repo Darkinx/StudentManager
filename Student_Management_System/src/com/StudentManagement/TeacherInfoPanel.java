@@ -34,8 +34,8 @@ public class TeacherInfoPanel extends JPanel {
 		setLayout(springLayout);
 		
 		JLabel lblPictureHolder = new JLabel("");
-		springLayout.putConstraint(SpringLayout.SOUTH, lblPictureHolder, 250, SpringLayout.NORTH, this);
-		springLayout.putConstraint(SpringLayout.EAST, lblPictureHolder, -1060, SpringLayout.EAST, this);
+		springLayout.putConstraint(SpringLayout.WEST, lblPictureHolder, 30, SpringLayout.WEST, this);
+		springLayout.putConstraint(SpringLayout.EAST, lblPictureHolder, 305, SpringLayout.WEST, this);
 		lblPictureHolder.setHorizontalTextPosition(SwingConstants.CENTER);
 		lblPictureHolder.setHorizontalAlignment(SwingConstants.CENTER);
 		lblPictureHolder.setPreferredSize(new Dimension(250, 250));
@@ -50,56 +50,57 @@ public class TeacherInfoPanel extends JPanel {
 		add(lblPictureHolder);
 		
 		JLabel lblFullname = new JLabel("Fullname Here");
-		springLayout.putConstraint(SpringLayout.NORTH, lblFullname, 6, SpringLayout.SOUTH, lblPictureHolder);
-		springLayout.putConstraint(SpringLayout.WEST, lblFullname, 0, SpringLayout.WEST, lblPictureHolder);
-		springLayout.putConstraint(SpringLayout.EAST, lblFullname, 345, SpringLayout.WEST, this);
+		springLayout.putConstraint(SpringLayout.WEST, lblFullname, 30, SpringLayout.WEST, this);
+		springLayout.putConstraint(SpringLayout.NORTH, lblPictureHolder, -256, SpringLayout.NORTH, lblFullname);
+		springLayout.putConstraint(SpringLayout.SOUTH, lblPictureHolder, -6, SpringLayout.NORTH, lblFullname);
+		springLayout.putConstraint(SpringLayout.NORTH, lblFullname, 272, SpringLayout.NORTH, this);
 		lblFullname.setForeground(new Color(255, 255, 255));
 		lblFullname.setFont(new Font("Lato Black", Font.PLAIN, 32));
 		add(lblFullname);
 		
 		JLabel lblUsername = new JLabel("Username");
-		springLayout.putConstraint(SpringLayout.NORTH, lblUsername, 297, SpringLayout.NORTH, this);
-		springLayout.putConstraint(SpringLayout.SOUTH, lblUsername, -348, SpringLayout.SOUTH, this);
-		springLayout.putConstraint(SpringLayout.SOUTH, lblFullname, -6, SpringLayout.NORTH, lblUsername);
-		springLayout.putConstraint(SpringLayout.WEST, lblUsername, 0, SpringLayout.WEST, lblPictureHolder);
-		springLayout.putConstraint(SpringLayout.EAST, lblUsername, -995, SpringLayout.EAST, this);
+		springLayout.putConstraint(SpringLayout.NORTH, lblUsername, 313, SpringLayout.NORTH, this);
+		springLayout.putConstraint(SpringLayout.WEST, lblUsername, 30, SpringLayout.WEST, this);
 		lblUsername.setFont(new Font("Lato", Font.PLAIN, 20));
 		add(lblUsername);
 		
 		JLabel lblEmail = new JLabel("Emailprotonmail@gmail.com");
-		springLayout.putConstraint(SpringLayout.NORTH, lblEmail, 396, SpringLayout.NORTH, this);
-		springLayout.putConstraint(SpringLayout.WEST, lblEmail, 0, SpringLayout.WEST, lblPictureHolder);
-		springLayout.putConstraint(SpringLayout.EAST, lblEmail, 315, SpringLayout.WEST, lblPictureHolder);
+		springLayout.putConstraint(SpringLayout.NORTH, lblEmail, 393, SpringLayout.NORTH, this);
+		springLayout.putConstraint(SpringLayout.WEST, lblEmail, 30, SpringLayout.WEST, this);
 		lblEmail.setForeground(new Color(255, 255, 255));
 		lblEmail.setFont(new Font("Lato", Font.PLAIN, 16));
 		add(lblEmail);
 		
 		JLabel lblPhoneNumber = new JLabel("Phone Number:");
-		springLayout.putConstraint(SpringLayout.WEST, lblPhoneNumber, 60, SpringLayout.WEST, this);
-		springLayout.putConstraint(SpringLayout.SOUTH, lblPhoneNumber, -130, SpringLayout.SOUTH, this);
+		springLayout.putConstraint(SpringLayout.WEST, lblPhoneNumber, 30, SpringLayout.WEST, this);
+		springLayout.putConstraint(SpringLayout.SOUTH, lblPhoneNumber, -133, SpringLayout.SOUTH, this);
 		lblPhoneNumber.setForeground(Color.WHITE);
 		lblPhoneNumber.setFont(new Font("Lato", Font.PLAIN, 20));
 		add(lblPhoneNumber);
 		
 		JLabel lblEmployeeNumber = new JLabel("Employee Number: ");
 		springLayout.putConstraint(SpringLayout.NORTH, lblEmployeeNumber, 40, SpringLayout.SOUTH, lblPhoneNumber);
-		springLayout.putConstraint(SpringLayout.WEST, lblEmployeeNumber, 60, SpringLayout.WEST, this);
-		springLayout.putConstraint(SpringLayout.SOUTH, lblEmployeeNumber, -66, SpringLayout.SOUTH, this);
+		springLayout.putConstraint(SpringLayout.WEST, lblEmployeeNumber, 30, SpringLayout.WEST, this);
+		springLayout.putConstraint(SpringLayout.SOUTH, lblEmployeeNumber, -69, SpringLayout.SOUTH, this);
 		lblEmployeeNumber.setForeground(Color.WHITE);
 		lblEmployeeNumber.setFont(new Font("Lato", Font.PLAIN, 20));
 		add(lblEmployeeNumber);
 		
 		JLabel lblPosition = new JLabel("Teacher");
-		springLayout.putConstraint(SpringLayout.NORTH, lblPosition, 447, SpringLayout.NORTH, this);
-		springLayout.putConstraint(SpringLayout.SOUTH, lblPosition, -193, SpringLayout.SOUTH, this);
-		springLayout.putConstraint(SpringLayout.SOUTH, lblEmail, -30, SpringLayout.NORTH, lblPosition);
-		springLayout.putConstraint(SpringLayout.WEST, lblPosition, 60, SpringLayout.WEST, this);
+		springLayout.putConstraint(SpringLayout.NORTH, lblPosition, 444, SpringLayout.NORTH, this);
+		springLayout.putConstraint(SpringLayout.SOUTH, lblPosition, -196, SpringLayout.SOUTH, this);
+		springLayout.putConstraint(SpringLayout.SOUTH, lblEmail, -33, SpringLayout.NORTH, lblPosition);
+		springLayout.putConstraint(SpringLayout.WEST, lblPosition, 30, SpringLayout.WEST, this);
 		springLayout.putConstraint(SpringLayout.NORTH, lblPhoneNumber, 39, SpringLayout.SOUTH, lblPosition);
 		lblPosition.setForeground(Color.WHITE);
 		lblPosition.setFont(new Font("Lato", Font.PLAIN, 20));
 		add(lblPosition);
 		
 		JPanel pnlPersonal = new JPanel();
+		springLayout.putConstraint(SpringLayout.EAST, lblUsername, -100, SpringLayout.WEST, pnlPersonal);
+		springLayout.putConstraint(SpringLayout.SOUTH, lblFullname, 0, SpringLayout.SOUTH, pnlPersonal);
+		springLayout.putConstraint(SpringLayout.EAST, lblFullname, -117, SpringLayout.WEST, pnlPersonal);
+		springLayout.putConstraint(SpringLayout.SOUTH, lblUsername, 0, SpringLayout.SOUTH, pnlPersonal);
 		springLayout.putConstraint(SpringLayout.WEST, pnlPersonal, 445, SpringLayout.WEST, this);
 		springLayout.putConstraint(SpringLayout.EAST, pnlPersonal, -30, SpringLayout.EAST, this);
 		pnlPersonal.setBackground(new Color(161, 173, 255));
@@ -108,11 +109,12 @@ public class TeacherInfoPanel extends JPanel {
 		add(pnlPersonal);
 		
 		JPanel pnlSchool = new JPanel();
+		springLayout.putConstraint(SpringLayout.EAST, lblPosition, -100, SpringLayout.WEST, pnlSchool);
+		springLayout.putConstraint(SpringLayout.EAST, lblEmployeeNumber, -100, SpringLayout.WEST, pnlSchool);
+		springLayout.putConstraint(SpringLayout.EAST, lblPhoneNumber, -100, SpringLayout.WEST, pnlSchool);
+		springLayout.putConstraint(SpringLayout.EAST, lblEmail, -100, SpringLayout.WEST, pnlSchool);
 		springLayout.putConstraint(SpringLayout.WEST, pnlSchool, 445, SpringLayout.WEST, this);
 		springLayout.putConstraint(SpringLayout.EAST, pnlSchool, -30, SpringLayout.EAST, this);
-		springLayout.putConstraint(SpringLayout.EAST, lblPosition, -70, SpringLayout.WEST, pnlSchool);
-		springLayout.putConstraint(SpringLayout.EAST, lblEmployeeNumber, -70, SpringLayout.WEST, pnlSchool);
-		springLayout.putConstraint(SpringLayout.EAST, lblPhoneNumber, -70, SpringLayout.WEST, pnlSchool);
 		pnlSchool.setBackground(pnlPersonal.getBackground());
 		springLayout.putConstraint(SpringLayout.NORTH, pnlSchool, 30, SpringLayout.SOUTH, pnlPersonal);
 		springLayout.putConstraint(SpringLayout.SOUTH, pnlSchool, -30, SpringLayout.SOUTH, this);
@@ -304,11 +306,11 @@ public class TeacherInfoPanel extends JPanel {
 //		pnlBack.add(lblBack);
 	
 		JButton btnEditProf = new JButton("Edit Profile");
+		springLayout.putConstraint(SpringLayout.NORTH, btnEditProf, 17, SpringLayout.SOUTH, lblUsername);
+		springLayout.putConstraint(SpringLayout.WEST, btnEditProf, 72, SpringLayout.WEST, this);
+		springLayout.putConstraint(SpringLayout.SOUTH, btnEditProf, -16, SpringLayout.NORTH, lblEmail);
+		springLayout.putConstraint(SpringLayout.EAST, btnEditProf, -126, SpringLayout.WEST, pnlSchool);
 		btnEditProf.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		springLayout.putConstraint(SpringLayout.NORTH, btnEditProf, 26, SpringLayout.SOUTH, lblUsername);
-		springLayout.putConstraint(SpringLayout.WEST, btnEditProf, 73, SpringLayout.WEST, this);
-		springLayout.putConstraint(SpringLayout.SOUTH, btnEditProf, -26, SpringLayout.NORTH, lblEmail);
-		springLayout.putConstraint(SpringLayout.EAST, btnEditProf, -25, SpringLayout.EAST, lblFullname);
 		btnEditProf.setBorder(null );
 		btnEditProf.setForeground(new Color(255, 255, 255));
 		btnEditProf.setBackground(new Color(47, 74, 95));
