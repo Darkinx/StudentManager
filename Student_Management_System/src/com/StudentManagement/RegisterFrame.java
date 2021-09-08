@@ -92,26 +92,30 @@ public class RegisterFrame extends JFrame {
 		lblTeacher.setBorder(null);
 		pnlRegisterSelector.add(lblTeacher);
 		
-		JLabel lblStudent = new JLabel("<html>LEARNER<br>OR<br>STUDENT</html>");
-		lblStudent.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				// need to rechange the teacher register creation panel
-				pnlMainRegister.setVisible(false);
-				pnlMainRegister.setEnabled(false);
-				pnlRegisterSelector.setVisible(false);
-				pnlRegisterSelector.setEnabled(false);
-				getContentPane().add(studentRegisterPanel);
-				studentRegisterPanel.setEnabled(true);
-				studentRegisterPanel.setVisible(true);
-				
-				
-			}
-		});
+		// Uncomment everything when this part of the system is done
+//		JLabel lblStudent = new JLabel("<html>LEARNER<br>OR<br>STUDENT</html>");
+		JLabel lblStudent = new JLabel("<html>Under<br>Development</html>");
+		lblStudent.setForeground(new Color(128, 128, 128));
+		lblStudent.setBackground(new Color(184, 134, 11));
+//		lblStudent.addMouseListener(new MouseAdapter() {
+//			@Override
+//			public void mouseClicked(MouseEvent e) {
+//				// need to rechange the teacher register creation panel
+//				pnlMainRegister.setVisible(false);
+//				pnlMainRegister.setEnabled(false);
+//				pnlRegisterSelector.setVisible(false);
+//				pnlRegisterSelector.setEnabled(false);
+//				getContentPane().add(studentRegisterPanel);
+//				studentRegisterPanel.setEnabled(true);
+//				studentRegisterPanel.setVisible(true);
+//				
+//				
+//			}
+//		});
 		lblStudent.setHorizontalAlignment(SwingConstants.CENTER);
 		lblStudent.setOpaque(true);
-		lblStudent.setForeground(new Color(255, 255, 255));
-		lblStudent.setBackground(new Color(255, 192, 0));
+//		lblStudent.setForeground(new Color(255, 255, 255));
+//		lblStudent.setBackground(new Color(255, 192, 0));
 		lblStudent.setFont(new Font("Bebas Neue", Font.BOLD, 99));
 		lblStudent.setBorder(null);
 		pnlRegisterSelector.add(lblStudent);
