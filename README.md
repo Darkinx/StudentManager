@@ -20,13 +20,13 @@ This uses JFrame as the main window, that's the new changes so far.
 Added a lot of Frames and panels for different styles, layout and functionalities.
 
 ## Status
-Main functionalities is stagnant as of now due to the messy code.
+- [ ] Main functionalities is stagnant as of now due to the messy code.
 
-Still on cleaning and establishing a connection to the database.
+- [ ] Still on cleaning and establishing a connection to the database.
 
-Re-writing a lot of parts of the system due to messy code.
+- [ ] Re-writing a lot of parts of the system due to messy code.
 
-Will try to fix things and connect the system to its database properly.
+- [ ] Will try to fix things and connect the system to its database properly.
 
-Updates will be stagnant due to the start of college and can't handle things for now.
+- [ ] Updates will be stagnant due to the start of college and can't handle things for now.
 
