@@ -1,5 +1,6 @@
 # Directories
 /bin/*
+bin/
 /src/com/StudentManagement/Testing/*
 .metadata/
 # Compiled class file
