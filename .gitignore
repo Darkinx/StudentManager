@@ -1,7 +1,7 @@
 # Directories
 /bin/*
 /src/com/StudentManagement/Testing/*
-
+.metadata/
 # Compiled class file
 *.class
 
@@ -22,6 +22,12 @@
 *.zip
 *.tar.gz
 *.rar
+*.sql
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+Student_Management_System/.metadata/.lock
+
+#gitignore itself
+.gitignore
+
