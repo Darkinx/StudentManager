@@ -13,16 +13,16 @@ public class NotificationCard extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public NotificationCard() {
+	public NotificationCard(String pictureHolder, String subjectName, String detailHolder, String timeHolder) {
 		setLayout(null);
 		
-		JLabel lblPictureHolder = new JLabel("Picture Here");
+		JLabel lblPictureHolder = new JLabel(pictureHolder);
 		lblPictureHolder.setHorizontalAlignment(SwingConstants.CENTER);
 		lblPictureHolder.setBorder(new LineBorder(new Color(0, 0, 0)));
 		lblPictureHolder.setBounds(30, 30, 140, 140);
 		add(lblPictureHolder);
 		
-		JLabel lblSubjectName = new JLabel("Subject/ Notification Name");
+		JLabel lblSubjectName = new JLabel(subjectName);
 		lblSubjectName.setFont(new Font("Segoe UI", Font.BOLD, 18));
 		lblSubjectName.setBounds(200, 30, 370, 27);
 		add(lblSubjectName);
@@ -39,15 +39,11 @@ public class NotificationCard extends JPanel {
 		txtpnDetailHolder.setVerifyInputWhenFocusTarget(false);
 		txtpnDetailHolder.setRequestFocusEnabled(false);
 		txtpnDetailHolder.setFont(new Font("Segoe UI", Font.PLAIN, 12));
-		txtpnDetailHolder.setText(loremIpsum);
+		txtpnDetailHolder.setText(detailHolder);
 		txtpnDetailHolder.setBounds(200, 68, 370, 77);
 		add(txtpnDetailHolder);
 		
-		JLabel label = new JLabel("New label");
-		label.setBounds(200, 156, 113, -28);
-		add(label);
-		
-		JLabel lblTime = new JLabel("Time");
+		JLabel lblTime = new JLabel(timeHolder);
 		lblTime.setFont(new Font("Segoe UI", Font.PLAIN, 14));
 		lblTime.setBounds(200, 148, 370, 22);
 		add(lblTime);

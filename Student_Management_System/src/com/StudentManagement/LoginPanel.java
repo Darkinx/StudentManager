@@ -221,7 +221,15 @@ public class LoginPanel extends JPanel {
 						ResultSet rsl = statement.executeQuery();
 						if(rsl.next()) {
 							// need to implement the getters and setters for simultaneous use of the information
-								JFrame homePage = new HomePageUI();
+							String userID = rsl.getString("ID_user");
+							String username = rsl.getString("username");
+							int idInt = rsl.getInt("id");
+							User.setID(userID);
+							User.setKey(idInt);
+							User.setUser(username);
+							
+//							User user = new User(username, userID, idInt); 
+							JFrame homePage = new HomePageUI();
 //								register.pack();
 								homePage.setVisible(true);
 //								register.setLocationRelativeTo(null);

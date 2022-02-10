@@ -14,7 +14,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -26,9 +29,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
-import javax.swing.JSpinner;
 import javax.swing.JTabbedPane;
-import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
@@ -37,6 +38,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import com.toedter.calendar.JCalendar;
+import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
 
 public class HomePageUI extends JFrame {
 
@@ -358,10 +361,85 @@ public class HomePageUI extends JFrame {
 		pnlNotificationHeader.add(lblFilterMenu);
 		pnlMainNotification.setLayout(null);
 		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		scrollPane.setBorder(null);
+		scrollPane.setBounds(0, 79, 672, 578);
+		pnlMainNotification.add(scrollPane);
+		
+		JPanel pnlNotificationHolder = new JPanel();
+		scrollPane.setViewportView(pnlNotificationHolder);
+		pnlNotificationHolder.setBackground(new Color(0,0,0,0));
+		GridBagLayout gbl_pnlNotificationHolder = new GridBagLayout();
+		gbl_pnlNotificationHolder.columnWidths = new int[]{680, 0};
+		gbl_pnlNotificationHolder.rowHeights = new int[]{200, 200, 0};
+		gbl_pnlNotificationHolder.columnWeights = new double[]{1.0, Double.MIN_VALUE};
+		gbl_pnlNotificationHolder.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
+		pnlNotificationHolder.setLayout(gbl_pnlNotificationHolder);
+		
+		// Sample panelling system for the NotificationHolder
+//		JPanel panel = new JPanel();
+//		GridBagConstraints gbc_panel = new GridBagConstraints();
+//		gbc_panel.fill = GridBagConstraints.BOTH;
+//		gbc_panel.insets = new Insets(0, 0, 5, 0);
+//		gbc_panel.gridx = 0;
+//		gbc_panel.gridy = 0;
+//		pnlNotificationHolder.add(panel, gbc_panel);
+//		
+//		JPanel panel_1 = new JPanel();
+//		GridBagConstraints gbc_panel_1 = new GridBagConstraints();
+//		gbc_panel_1.fill = GridBagConstraints.BOTH;
+//		gbc_panel_1.gridx = 0;
+//		gbc_panel_1.gridy = 1;
+//		pnlNotificationHolder.add(panel_1, gbc_panel_1);
+		
+		//Getting the notifications in the sql and adding to the panel
+		//Working sql connection need more polish
+		try {
+			String sqlNotification = "SELECT * FROM `notification` WHERE user_id=?";
+			int user_key = User.getKey(); 
+			
+			conDB connection = new conDB();
+			PreparedStatement statement = connection.connectionString().prepareStatement(sqlNotification);
+			statement.setInt(1, user_key);
+			
+			ArrayList<NotificationCard> notif = new ArrayList<NotificationCard>();
+			ArrayList<GridBagConstraints> gbc_notif = new ArrayList<GridBagConstraints>();
+			
+			ResultSet rsl = statement.executeQuery();
+			while(rsl.next()) {
+				System.out.print("rsl is in the loop");
+				String subject = rsl.getString("subject");
+				String detail =  rsl.getString("detail");
+				Date timegiven = rsl.getDate("time");
+				
+				System.out.println("Subject: " + subject + "\n" + "Detail: " + 
+				detail + "\n" + "TimeGiven: " + timegiven.toString() + "\n\n");
+				
+				NotificationCard tempCard = new NotificationCard(User.getUser(), subject, detail, timegiven.toString());
+				tempCard.setVisible(true);
+				tempCard.setEnabled(true);
+				notif.add(tempCard);
+
+			}
+			for (int i =0; i < notif.size(); i++) {
+				GridBagConstraints gbc_temp = new GridBagConstraints();
+				gbc_temp.fill = GridBagConstraints.BOTH;
+				gbc_temp.gridx = 0;
+				gbc_temp.gridy = i;
+				gbc_notif.add(gbc_temp);
+				pnlNotificationHolder.add(notif.get(i), gbc_notif.get(i));
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		
+		
+		
 		JLabel lblLogo = new JLabel("");
 		lblLogo.setIcon(mainPageFunction.imgMethodNonButton((new ImageIcon(HomePageUI.class.getResource("/Icons/MainLogo.png"))), 650, 650));
 		pnlNotification.add(lblLogo);
-		
 		
 		JPanel pnlTaskEditor = new JPanel();
 		pnlTaskEditor.setBackground(new Color(251, 251, 251));

@@ -6,4 +6,5 @@ module student_Management_System {
 	requires java.sql;
 	requires jcalendar;
 	requires com.github.lgooddatepicker;
+	requires mysql.connector.java;
 }
